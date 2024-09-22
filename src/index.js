@@ -2,10 +2,8 @@
 import './reset.css';
 import './style.css';
 import murmur from 'murmurhash-js';
-import linkedList from 'linked-list-js'
-
+import linkedList from '@thereisnodeveloper/linked-list-js';
 console.log('linkedList:', linkedList)
-
 // eslint-disable-next-line no-unused-vars
 const testElement = document.createElement('div');
 // #endregion
@@ -24,20 +22,21 @@ class HashMap {
   }
 
   set(key, value) {
-   const hashCode =  murmur(key)
-   console.log('hashCode:', hashCode)
-   const bucket = hashCode % this.bucketsArray.length
-   console.log('bucket:', bucket)
+    const hashCode = murmur(key);
+    console.log('hashCode:', hashCode);
+    const bucket = hashCode % this.bucketsArray.length;
+    console.log('bucket:', bucket);
 
-   
-   // find bucket using hash code
+    // find bucket using hash code
     // traverse linkedList until you find key
     // check key against existingKey
     // check fn_growBucketIfNeeded
     // if same, overwrite old value with $value
     // if different key (still same bucket), create new node in linkedList
   }
-f
+
+  f;
+
   get(key) {
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
   }
@@ -55,10 +54,8 @@ f
 
   // TODO: entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
-  
 }
 
 const hashMap1 = new HashMap();
 
-const result = murmur("blah")
-
+const result = murmur('blah');

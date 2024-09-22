@@ -8,8 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
-    "start": "nodemon --watch webpack.config.js ./node_modules/.bin/webpack-dev-server --open",
-    "build": "webpack"
+    "start": "nodemon --watch webpack.common.cjs --watch webpack.dev.cjs --watch webpack.prod.cjs --exec \"webpack-dev-server --open --config webpack.dev.cjs\"",
+    "build": "webpack --config webpack.prod.cjs"
   },
   "keywords": [],
   "author": "",
@@ -40,7 +40,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
-    "@thereisnodeveloper/linked-list-js": "^1.0.0",
+    "@thereisnodeveloper/linked-list-js": "^1.0.4",
     "murmurhash-js": "^1.0.0"
   }
 }

@@ -1,20 +1,30 @@
 // #region required-template
 import './reset.css';
 import './style.css';
+import murmur from 'murmurhash-js';
 
 // eslint-disable-next-line no-unused-vars
 const testElement = document.createElement('div');
 // #endregion
 
+function checkIndex(index, buckets) {
+  if (index < 0 || index >= buckets.length) {
+    throw new Error('Trying to access index out of bound');
+  }
+}
 
-// DOM elements
-const domInputs = document.querySelectorAll('input');
-/** @type {Array.<HTMLInputElement>} */
-const [
-  passwordOriginal = document.querySelector('input#password'),
-  passwordToCompare = document.querySelector('input#confirm-password'),
-  email = document.querySelector('input#email'),
-  country = document.querySelector('#country'),
-  zip = document.querySelector('#zip'),
-  form = document.querySelector('form'),
-] = [];
+class HashMap {
+  constructor(size) {
+    this.size = size;
+    this.bucketsArray = new Array(size);
+    console.log('this.bucketsArray:', this.bucketsArray);
+  }
+
+  set(key, value) {
+    // find key using hash code
+    // check key against existingKey
+      // if same, overwrite old value
+  }
+}
+
+const hashMap1 = new HashMap(16);

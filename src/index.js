@@ -2,7 +2,9 @@
 import './reset.css';
 import './style.css';
 import murmur from 'murmurhash-js';
+import linkedList from 'linked-list-js'
 
+console.log('linkedList:', linkedList)
 
 // eslint-disable-next-line no-unused-vars
 const testElement = document.createElement('div');

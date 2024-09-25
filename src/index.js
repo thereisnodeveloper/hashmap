@@ -23,6 +23,7 @@ class HashMap {
     this.bucketsArray = new Array(this.defaultSize).fill(null);
 
     this.initiateBuckets();
+    this.loadFactorThreshold = 0.75;
   }
 
   initiateBuckets() {
@@ -36,6 +37,18 @@ class HashMap {
     });
   }
 
+  getLoadFactor() {
+    // TODO: checks how many buckets are 'empty'
+    // reduce probably
+  const loadFactor = this.bucketsArray.reduce((previous, current) => previous + current.size, 0) / this.bucketsArray.length
+  console.log('loadFactor:', loadFactor)
+  }
+
+  growBucketIfNeeded() {
+    // check current loadfactor
+    // TODO: doubles bucket size if we reach loadFactorThreshold
+  }
+
   set(key, value) {
     const hashCode = murmur(key);
     console.log('hashCode:', hashCode);
@@ -46,19 +59,21 @@ class HashMap {
     console.log('this.bucketsArray[bucketCode].size:', this.bucketsArray[bucketCode].size);
     const targetBucket = this.bucketsArray[bucketCode];
     if (targetBucket.size === 0) {
-      targetBucket.append(key, value);
+      targetBucket.append({ key, value });
       return targetBucket;
     }
     // traverse linkedList until you find key
-    const findResult = targetBucket.find(key)
-    if(findResult){
-     targetBucket.
-    }
-    
-    
-
     // check key against existingKey
+    const indexOfResult = targetBucket.find({ key, value });
+    if (indexOfResult) {
+      targetBucket.removeAt(indexOfResult);
+      targetBucket.insertAt({ key, value });
+      // [0,1,2,3,4]
+      // [0,1,3,4]
+    }
+
     // check fn_growBucketIfNeeded
+
     // if key is same, overwrite old value with $value
     // if different key (still same bucket), create new node in linkedList
   }
@@ -83,7 +98,8 @@ class HashMap {
 }
 
 const hashMap1 = new HashMap();
-const result = hashMap1.set('testKey', 1);
-console.log('result:', result);
-const printResult = hashMap1.printBuckets()
-console.log('printResult:', printResult)
+// const result = hashMap1.set('testKey', 1);
+// console.log('result:', result);
+hashMap1.printBuckets();
+
+hashMap1.getLoadFactor()

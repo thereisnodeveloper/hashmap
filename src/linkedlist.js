@@ -24,7 +24,14 @@ function linkedList(listLocationIndex = null) {
   let head;
   let tail;
   let size = 0;
-  let index = listLocationIndex;
+  const index = listLocationIndex;
+
+  function ifObjectThenGetKey(value) {
+    if (typeof value === 'Object') {
+      return (value = value.key);
+    }
+    return value;
+  }
 
   function setHeadTailIfSize0(newNodeReference) {
     if (size === 0) {
@@ -50,7 +57,6 @@ function linkedList(listLocationIndex = null) {
     // MAYBE: use loop instead
     let stopConditionMet = false;
     const currentValue = currentNode.value;
-
     const methodSpecificConfigs = {
       [contains]: { propertyValue: currentValue, callbackOptions: {} },
       [find]: { propertyValue: currentValue, callbackOptions: currentIndex },
@@ -79,15 +85,6 @@ function linkedList(listLocationIndex = null) {
 
     resultString = resultString.concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
-
-function ifObjectThenGetKey(value){
-  if (typeof value === 'Object'){
-    return value = value.key
-  }
-  else{
-    return value
-  }
-}
 
     return traverse({
       callback,
@@ -126,10 +123,11 @@ function ifObjectThenGetKey(value){
   }
 
   function find(targetValue) {
+    function findCallback(currentIndex) {
+      return currentIndex;
+    }
+    targetValue = ifObjectThenGetKey(targetValue);
 
-      function findCallback(currentIndex) {
-        return currentIndex;
-      }
     const index = traverse({
       evaluator: createEvaluator(targetValue),
       caller: find,
@@ -236,7 +234,7 @@ function ifObjectThenGetKey(value){
     get index() {
       return index;
     },
-    index, //FIXME: try to remove this after testing
+    index, // FIXME: try to remove this after testing
 
     get tail() {
       return tail;
@@ -341,8 +339,6 @@ function createEvaluator(targetProperty) {
     return targetProperty === propertyValue;
   };
 }
-
-
 
 // Run the tests
 // testLinkedList();

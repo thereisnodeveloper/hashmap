@@ -27,16 +27,17 @@ class HashMap {
 
   initiateBuckets() {
     this.bucketsArray = this.bucketsArray.map((bucket) => {
-      bucket = linkedList()
-      return bucket
+      bucket = linkedList();
+      return bucket;
     });
   }
 
-  printBuckets(){
-    this.bucketsArray.forEach((bucket)=> bucket.toString)
-    //prints out all buckets
+  printBuckets() {
+    this.bucketsArray.forEach((bucket) => {
+      const printResult = bucket.toString()
+      console.log('printResult:', printResult)
+    });
   }
-
 
   set(key, value) {
     const hashCode = murmur(key);
@@ -73,5 +74,5 @@ class HashMap {
 }
 
 const hashMap1 = new HashMap();
-
-const result = murmur('blah');
+// const printResult = hashMap1.printBuckets()
+// console.log('printResult:', printResult)

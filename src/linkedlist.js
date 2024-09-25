@@ -128,6 +128,7 @@ function linkedList() {
   }
 
   function toString() {
+    if(size <= 0) throw new Error ('linked list is empty')
     function toStringCallback(config) {
       const { resultString, currentNode } = config;
       // console.log('starting toStringCallback');

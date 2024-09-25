@@ -26,27 +26,36 @@ class HashMap {
   }
 
   initiateBuckets() {
-    this.bucketsArray = this.bucketsArray.map((bucket) => {
-      bucket = linkedList();
-      return bucket;
-    });
+    this.bucketsArray = this.bucketsArray.map((bucket, index) => linkedList(index));
   }
 
   printBuckets() {
     this.bucketsArray.forEach((bucket) => {
-      const printResult = bucket.toString()
-      console.log('printResult:', printResult)
+      const printResult = bucket.toString();
+      console.log('printResult:', printResult);
     });
   }
 
   set(key, value) {
     const hashCode = murmur(key);
     console.log('hashCode:', hashCode);
-    const bucket = hashCode % this.bucketsArray.length;
-    console.log('bucket:', bucket);
+    const bucketCode = hashCode % this.bucketsArray.length;
 
     // find bucket using hash code
+    console.log('bucketIndex:', bucketCode);
+    console.log('this.bucketsArray[bucketCode].size:', this.bucketsArray[bucketCode].size);
+    const targetBucket = this.bucketsArray[bucketCode];
+    if (targetBucket.size === 0) {
+      targetBucket.append(key, value);
+      return targetBucket;
+    }
     // traverse linkedList until you find key
+    const findResult = targetBucket.find(key)
+    if(findResult){
+     targetBucket.
+    }
+    
+    
 
     // check key against existingKey
     // check fn_growBucketIfNeeded
@@ -74,5 +83,7 @@ class HashMap {
 }
 
 const hashMap1 = new HashMap();
-// const printResult = hashMap1.printBuckets()
-// console.log('printResult:', printResult)
+const result = hashMap1.set('testKey', 1);
+console.log('result:', result);
+const printResult = hashMap1.printBuckets()
+console.log('printResult:', printResult)

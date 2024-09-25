@@ -19,11 +19,12 @@
  * @property {function(number): Node} removeAt - Removes and returns the node at the specified index
  * @property {function(*=, Node=): Node} node - Creates a new node
  */
-function linkedList() {
+function linkedList(listLocationIndex = null) {
   // console.log('linkedList() called...');
   let head;
   let tail;
   let size = 0;
+  let index = listLocationIndex;
 
   function setHeadTailIfSize0(newNodeReference) {
     if (size === 0) {
@@ -66,7 +67,7 @@ function linkedList() {
     stopConditionMet = evaluator(methodSpecificConfigs[caller].propertyValue);
     // BASE CASE
     if (stopConditionMet) {
-    //   console.log(`stop condition ${stopConditionMet} met`);
+      //   console.log(`stop condition ${stopConditionMet} met`);
       if (callback !== null) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
@@ -78,6 +79,15 @@ function linkedList() {
 
     resultString = resultString.concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
+
+function ifObjectThenGetKey(value){
+  if (typeof value === 'Object'){
+    return value = value.key
+  }
+  else{
+    return value
+  }
+}
 
     return traverse({
       callback,
@@ -116,9 +126,10 @@ function linkedList() {
   }
 
   function find(targetValue) {
-    function findCallback(currentIndex) {
-      return currentIndex;
-    }
+
+      function findCallback(currentIndex) {
+        return currentIndex;
+      }
     const index = traverse({
       evaluator: createEvaluator(targetValue),
       caller: find,
@@ -128,7 +139,8 @@ function linkedList() {
   }
 
   function toString() {
-    if(size <= 0) throw new Error ('linked list is empty')
+    if (size <= 0) return this;
+
     function toStringCallback(config) {
       const { resultString, currentNode } = config;
       // console.log('starting toStringCallback');
@@ -199,7 +211,7 @@ function linkedList() {
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     if (targetIndex === size - 1) {
       tail = nodeBeforeTarget;
-    //   console.log('NEW tail:', tail);
+      //   console.log('NEW tail:', tail);
     }
     size -= 1;
     return removalTarget;
@@ -212,15 +224,20 @@ function linkedList() {
   }
 
   /**
- * @typedef {Object} Node
- * @property {*} value - The value stored in the node
- * @property {Node|null} next - The next node in the list
- */
+   * @typedef {Object} Node
+   * @property {*} value - The value stored in the node
+   * @property {Node|null} next - The next node in the list
+   */
   function node(value = null, next = null) {
     return { value, next };
   }
 
   return {
+    get index() {
+      return index;
+    },
+    index, //FIXME: try to remove this after testing
+
     get tail() {
       return tail;
     },
@@ -297,7 +314,7 @@ function testLinkedList() {
     console.log('toString method not implemented, skipping test');
   }
 
-//   console.log('LinkedList Tests Completed');
+  //   console.log('LinkedList Tests Completed');
 }
 
 /**
@@ -324,6 +341,8 @@ function createEvaluator(targetProperty) {
     return targetProperty === propertyValue;
   };
 }
+
+
 
 // Run the tests
 // testLinkedList();

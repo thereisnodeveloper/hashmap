@@ -1,4 +1,4 @@
-console.log('Linked List package loaded - test!!!');
+// console.log('Linked List package loaded - test!!!');
 // eslint-disable-next-line no-unused-vars
 
 // use Factory functions instead of clsasses
@@ -20,7 +20,7 @@ console.log('Linked List package loaded - test!!!');
  * @property {function(*=, Node=): Node} node - Creates a new node
  */
 function linkedList() {
-  console.log('linkedList() called...');
+  // console.log('linkedList() called...');
   let head;
   let tail;
   let size = 0;
@@ -66,7 +66,7 @@ function linkedList() {
     stopConditionMet = evaluator(methodSpecificConfigs[caller].propertyValue);
     // BASE CASE
     if (stopConditionMet) {
-      console.log(`stop condition ${stopConditionMet} met`);
+    //   console.log(`stop condition ${stopConditionMet} met`);
       if (callback !== null) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
@@ -130,7 +130,7 @@ function linkedList() {
   function toString() {
     function toStringCallback(config) {
       const { resultString, currentNode } = config;
-      console.log('starting toStringCallback');
+      // console.log('starting toStringCallback');
       return `${resultString}( ${currentNode.value} ) -> ` + ' null';
     }
 
@@ -198,7 +198,7 @@ function linkedList() {
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     if (targetIndex === size - 1) {
       tail = nodeBeforeTarget;
-      console.log('NEW tail:', tail);
+    //   console.log('NEW tail:', tail);
     }
     size -= 1;
     return removalTarget;
@@ -296,7 +296,7 @@ function testLinkedList() {
     console.log('toString method not implemented, skipping test');
   }
 
-  console.log('LinkedList Tests Completed');
+//   console.log('LinkedList Tests Completed');
 }
 
 /**
@@ -325,6 +325,6 @@ function createEvaluator(targetProperty) {
 }
 
 // Run the tests
-testLinkedList();
+// testLinkedList();
 
 export { linkedList };

@@ -1,17 +1,11 @@
-
-
 // #region required-template
 // import {linkedList} from '@thereisnodeveloper/linked-list';
-//importing from file instead of package, for autocomplete
-import {linkedList} from './linkedlist.js';
+// importing from file instead of package, for autocomplete
+import { linkedList } from './linkedlist.js';
 
 import './reset.css';
 import './style.css';
 import murmur from 'murmurhash-js';
-
-const list = linkedList()
-
-
 
 // eslint-disable-next-line no-unused-vars
 const testElement = document.createElement('div');
@@ -26,9 +20,23 @@ function checkIndex(index, buckets) {
 class HashMap {
   constructor() {
     this.defaultSize = 16;
-    this.bucketsArray = new Array(this.defaultSize);
-    console.log('this.bucketsArray:', this.bucketsArray);
+    this.bucketsArray = new Array(this.defaultSize).fill(null);
+
+    this.initiateBuckets();
   }
+
+  initiateBuckets() {
+    this.bucketsArray = this.bucketsArray.map((bucket) => {
+      bucket = linkedList()
+      return bucket
+    });
+  }
+
+  printBuckets(){
+    this.bucketsArray.forEach((bucket)=> bucket.toString)
+    //prints out all buckets
+  }
+
 
   set(key, value) {
     const hashCode = murmur(key);
@@ -38,13 +46,12 @@ class HashMap {
 
     // find bucket using hash code
     // traverse linkedList until you find key
+
     // check key against existingKey
     // check fn_growBucketIfNeeded
-    // if same, overwrite old value with $value
+    // if key is same, overwrite old value with $value
     // if different key (still same bucket), create new node in linkedList
   }
-
-  f;
 
   get(key) {
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.

@@ -79,6 +79,10 @@ class HashMap {
   get(key) {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
+    const targetBucket = this.bucketsArray[bucketCode];
+    if (targetBucket.size === 0) return null;
+    const result = targetBucket.at( targetBucket.find({key}))
+console.log('result:', result)
 
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
   }
@@ -112,7 +116,8 @@ class HashMap {
 
 const hashMap1 = new HashMap();
 const result1 = hashMap1.set('test-key', 1);
-const result = hashMap1.set('key-test', 3);
-const resul3 = hashMap1.set('key-test', 5);
+const result2 = hashMap1.set('key-test', 3);
+const result3 = hashMap1.set('key-test', 5);
 hashMap1.printBuckets();
 hashMap1.getLoadFactor();
+hashMap1.get('key-test')

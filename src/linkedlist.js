@@ -56,8 +56,11 @@ function linkedList(listLocationIndex = null) {
     // TODO: calculate big O for time & space
     // MAYBE: use loop instead
     let stopConditionMet = false;
-    const currentValue = currentNode.value;
-    const methodSpecificConfigs = {
+    // const currentValue = currentNode.value;
+    const currentValue = typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value ;
+
+    const 
+    methodSpecificConfigs = {
       [contains]: { propertyValue: currentValue, callbackOptions: {} },
       [find]: { propertyValue: currentValue, callbackOptions: currentIndex },
       [at]: { propertyValue: currentIndex, callbackOptions: {} },

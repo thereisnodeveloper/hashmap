@@ -42,14 +42,14 @@ function linkedList(listLocationIndex = null) {
     return false;
   }
   /** @type {{evaluator: Function, callback: Function, currentNode: Symbol,
-   * currentIndex: Number, resultString: String, caller: Function }} */
+   * currentIndex: Number, printArray: Array, caller: Function }} */
   function traverse(config) {
     let {
       evaluator,
       callback = null,
       currentNode = head,
       currentIndex = 0,
-      resultString = '',
+      printArray = [],
       caller = null,
     } = config;
 
@@ -62,7 +62,7 @@ function linkedList(listLocationIndex = null) {
       [find]: { propertyValue: currentValue, callbackOptions: currentIndex },
       [at]: { propertyValue: currentIndex, callbackOptions: {} },
       [pop]: { propertyValue: currentIndex, callbackOptions: {} },
-      [toString]: { propertyValue: currentIndex, callbackOptions: { resultString, currentNode } },
+      [toString]: { propertyValue: currentIndex, callbackOptions: { printArray, currentNode } },
       [insertAt]: { propertyValue: currentIndex, callbackOptions: {} },
       [removeAt]: { propertyValue: currentIndex, callbackOptions: {} },
     };
@@ -82,8 +82,9 @@ function linkedList(listLocationIndex = null) {
     if (currentNode === tail) return currentNode;
 
     // RECURSIVE CASE
-
-    resultString = resultString.concat(`( ${currentNode.value} )`, '->');
+//!!! be sure to check if this is an object or not
+    printArray.push(currentNode.value)
+    // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
 
     return traverse({
@@ -91,7 +92,7 @@ function linkedList(listLocationIndex = null) {
       evaluator,
       currentNode,
       currentIndex: currentIndex + 1,
-      resultString,
+      printArray,
       caller,
     });
   }
@@ -140,19 +141,29 @@ function linkedList(listLocationIndex = null) {
     if (size <= 0) return this;
 
     function toStringCallback(config) {
-      const { resultString, currentNode } = config;
+      const { printArray, currentNode } = config;
       // console.log('starting toStringCallback');
-      return `${resultString}( ${currentNode.value} ) -> ` + ' null';
+      //FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
+      //each node, and print it all at the end 
+      
+      printArray.push(JSON.stringify(currentNode.value))
+      return printArray
+      return `${printArray}( ${currentNode.value} ) -> ` + ' null';
     }
 
-    return traverse({
+    const toStringResultArray = traverse({
       evaluator: createEvaluator(size - 1),
       callback: toStringCallback,
       currentNode: head,
       currentIndex: 0,
-      resultString: '',
+      printArray: [],
       caller: toString,
     });
+// console.log('toStringResultArray:', toStringResultArray)
+    const finalString =  toStringResultArray.join('->')
+    
+
+    return finalString
   }
   function append(targetValue) {
     const newNodeReference = node(targetValue);

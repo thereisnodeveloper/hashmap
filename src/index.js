@@ -24,6 +24,7 @@ class HashMap {
 
     this.initiateBuckets();
     this.loadFactorThreshold = 0.75;
+    this.hashFunction = murmur
   }
 
   initiateBuckets() {
@@ -38,7 +39,7 @@ class HashMap {
   }
 
   getLoadFactor() {
-    // TODO: checks how many buckets are 'empty'
+    // checks how many buckets are 'empty'
     // reduce probably
   const loadFactor = this.bucketsArray.reduce((previous, current) => previous + current.size, 0) / this.bucketsArray.length
   console.log('loadFactor:', loadFactor)
@@ -50,7 +51,7 @@ class HashMap {
   }
 
   set(key, value) {
-    const hashCode = murmur(key);
+    const hashCode = this.hashFunction(key);
     console.log('hashCode:', hashCode);
     const bucketCode = hashCode % this.bucketsArray.length;
 
@@ -64,6 +65,7 @@ class HashMap {
     }
     // traverse linkedList until you find key
     // check key against existingKey
+    // if key is same, overwrite old value with $value
     const indexOfResult = targetBucket.find({ key, value });
     if (indexOfResult) {
       targetBucket.removeAt(indexOfResult);
@@ -71,10 +73,12 @@ class HashMap {
       // [0,1,2,3,4]
       // [0,1,3,4]
     }
+    else{
+      targetBucket.append({key,value})
+    }
 
-    // check fn_growBucketIfNeeded
+    //TODO: check fn_growBucketIfNeeded
 
-    // if key is same, overwrite old value with $value
     // if different key (still same bucket), create new node in linkedList
   }
 
@@ -98,8 +102,8 @@ class HashMap {
 }
 
 const hashMap1 = new HashMap();
-// const result = hashMap1.set('testKey', 1);
-// console.log('result:', result);
+const result1 = hashMap1.set('testKey', 1);
+const result = hashMap1.set('testKey2', 3);
+console.log('result:', result);
 hashMap1.printBuckets();
-
 hashMap1.getLoadFactor()

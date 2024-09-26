@@ -28,7 +28,7 @@ function linkedList(listLocationIndex = null) {
 
   function ifObjectThenGetKey(value) {
     if (typeof value === 'object') {
-      return (value = value.key);
+      return value.key;
     }
     return value;
   }
@@ -53,13 +53,14 @@ function linkedList(listLocationIndex = null) {
       caller = null,
     } = config;
 
+    if (caller===null) throw new Error ('no caller passed to traverse()')
     // TODO: calculate big O for time & space
     // MAYBE: use loop instead
     let stopConditionMet = false;
-    
+
     // const currentValue =
-      // typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value;
-     const currentValue =  ifObjectThenGetKey(currentNode.value)
+    // typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value;
+    const currentValue = ifObjectThenGetKey(currentNode.value);
     console.log('currentValue:', currentValue);
 
     const methodSpecificConfigs = {
@@ -75,10 +76,11 @@ function linkedList(listLocationIndex = null) {
     // Defines the 'propertyThreshold' which is the threshold value for
     // 'targetProperty'. The condition will be true when this value is reached
     // or exceeded.
+    console.log('caller:', caller)
+    console.log('methodSpecificConfigs[caller]. propertyThreshold:', methodSpecificConfigs[caller]. propertyThreshold)
+    const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller]. propertyThreshold);
+    console.log('propertyThreshold:', propertyThreshold);
 
-    const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller].propertyThreshold)
-    console.log('propertyThreshold:', propertyThreshold)
-    
     stopConditionMet = evaluator(propertyThreshold);
     // BASE CASE
     if (stopConditionMet) {
@@ -138,7 +140,7 @@ function linkedList(listLocationIndex = null) {
       return currentIndex;
     }
     targetValue = ifObjectThenGetKey(targetValue);
-console.log('targetValue:', targetValue)
+    console.log('targetValue:', targetValue);
     const index = traverse({
       evaluator: createEvaluator(targetValue),
       caller: find,
@@ -208,8 +210,8 @@ console.log('targetValue:', targetValue)
       append(targetValue);
       return;
     }
-
-    const insertionPoint = traverse({ condition1: targetIndex }, 'insertAt');
+//FIXME: condition1 not valid config
+    const insertionPoint = traverse({evaluator: createEvaluator(targetIndex), caller: insertAt  });
     const newNode = node(targetValue, insertionPoint.next);
     insertionPoint.next = newNode;
     size += 1;
@@ -218,13 +220,12 @@ console.log('targetValue:', targetValue)
 
   function removeAt(targetIndex) {
     isIndexValid(targetIndex);
-    function removeAtCallback() {}
     if (targetIndex === 0) {
       aList.pop;
       return;
     }
 
-    const nodeBeforeTarget = traverse({ condition1: targetIndex - 1 }, 'removeAt');
+    const nodeBeforeTarget = traverse({evaluator: createEvaluator(targetIndex), caller: removeAt  });
     const removalTarget = { ...nodeBeforeTarget.next };
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     if (targetIndex === size - 1) {

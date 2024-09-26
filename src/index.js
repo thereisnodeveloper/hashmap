@@ -38,13 +38,14 @@ class HashMap {
     });
   }
 
-  getLoadFactor() {
+  get loadFactor() {
     // checks how many buckets are 'empty'
     // reduce probably
     const loadFactor =
       this.bucketsArray.reduce((previous, current) => previous + current.size, 0) /
       this.bucketsArray.length;
     console.log('loadFactor:', loadFactor);
+    return loadFactor
   }
 
   growBucketIfNeeded() {
@@ -81,11 +82,13 @@ class HashMap {
     const bucketCode = hashCode % this.bucketsArray.length;
     const targetBucket = this.bucketsArray[bucketCode];
     if (targetBucket.size === 0) return null;
-    const result = targetBucket.at( targetBucket.find({key}))
-console.log('result:', result)
+    const resultValue = targetBucket.at( targetBucket.find({key})).value.value
+console.log('result:', resultValue)
 
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
   }
+
+
   // TODO: has(key) takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
 
   // TODO: remove(key) takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
@@ -120,4 +123,4 @@ const result2 = hashMap1.set('key-test', 3);
 const result3 = hashMap1.set('key-test', 5);
 hashMap1.printBuckets();
 hashMap1.getLoadFactor();
-hashMap1.get('key-test')
+hashMap1.get('test-key')

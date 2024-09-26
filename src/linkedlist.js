@@ -58,7 +58,7 @@ function linkedList(listLocationIndex = null) {
     let stopConditionMet = false;
     // const currentValue = currentNode.value;
     const currentValue = typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value ;
-
+console.log('currentValue:', currentValue)
     const 
     methodSpecificConfigs = {
       [contains]: { propertyValue: currentValue, callbackOptions: {} },
@@ -127,6 +127,7 @@ function linkedList(listLocationIndex = null) {
   }
 
   function find(targetValue) {
+    console.log('start find')
     function findCallback(currentIndex) {
       return currentIndex;
     }

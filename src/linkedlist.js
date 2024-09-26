@@ -77,7 +77,7 @@ function linkedList(listLocationIndex = null) {
     // 'targetProperty'. The condition will be true when this value is reached
     // or exceeded.
     console.log('caller:', caller)
-    console.log('methodSpecificConfigs[caller]. propertyThreshold:', methodSpecificConfigs[caller]. propertyThreshold)
+    // console.log('methodSpecificConfigs[caller]. propertyThreshold:', methodSpecificConfigs[caller]. propertyThreshold)
     const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller]. propertyThreshold);
     console.log('propertyThreshold:', propertyThreshold);
 
@@ -225,7 +225,7 @@ function linkedList(listLocationIndex = null) {
       return;
     }
 
-    const nodeBeforeTarget = traverse({evaluator: createEvaluator(targetIndex), caller: removeAt  });
+    const nodeBeforeTarget = traverse({evaluator: createEvaluator(targetIndex - 1), caller: removeAt  });
     const removalTarget = { ...nodeBeforeTarget.next };
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     if (targetIndex === size - 1) {

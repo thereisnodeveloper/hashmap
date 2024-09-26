@@ -83,7 +83,7 @@ function linkedList(listLocationIndex = null) {
 
     // RECURSIVE CASE
 //!!! be sure to check if this is an object or not
-    printArray.push(currentNode.value)
+    printArray.push(JSON.stringify(currentNode.value))
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
 

@@ -24,7 +24,7 @@ class HashMap {
 
     this.initiateBuckets();
     this.loadFactorThreshold = 0.75;
-    this.hashFunction = murmur
+    this.hashFunction = this.customHashFunction;
   }
 
   initiateBuckets() {
@@ -41,8 +41,10 @@ class HashMap {
   getLoadFactor() {
     // checks how many buckets are 'empty'
     // reduce probably
-  const loadFactor = this.bucketsArray.reduce((previous, current) => previous + current.size, 0) / this.bucketsArray.length
-  console.log('loadFactor:', loadFactor)
+    const loadFactor =
+      this.bucketsArray.reduce((previous, current) => previous + current.size, 0) /
+      this.bucketsArray.length;
+    console.log('loadFactor:', loadFactor);
   }
 
   growBucketIfNeeded() {
@@ -72,12 +74,11 @@ class HashMap {
       targetBucket.insertAt({ key, value });
       // [0,1,2,3,4]
       // [0,1,3,4]
-    }
-    else{
-      targetBucket.append({key,value})
+    } else {
+      targetBucket.append({ key, value });
     }
 
-    //TODO: check fn_growBucketIfNeeded
+    // TODO: check fn_growBucketIfNeeded
 
     // if different key (still same bucket), create new node in linkedList
   }
@@ -99,11 +100,24 @@ class HashMap {
 
   // TODO: entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
+
+  /** @param {String} key  */
+  customHashFunction(key) {
+    let charCodeSum = 0;
+    //Use golden ratio
+    const fractionConstant = 0.618033;
+    for (let index = 0; index < key.length; index++) {
+     charCodeSum += key.charCodeAt(index)
+    }
+    const hashCode = Math.floor(((charCodeSum * fractionConstant) % 1) * this.bucketsArray.length);
+    return hashCode;
+  }
 }
 
 const hashMap1 = new HashMap();
-const result1 = hashMap1.set('testKey', 1);
-const result = hashMap1.set('testKey2', 3);
+const result1 = hashMap1.set('test-key', 1);
+const result = hashMap1.set('key-test', 3);
+const resul3 = hashMap1.set('key-test', 5);
 console.log('result:', result);
 hashMap1.printBuckets();
-hashMap1.getLoadFactor()
+hashMap1.getLoadFactor();

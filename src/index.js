@@ -54,26 +54,18 @@ class HashMap {
 
   set(key, value) {
     const hashCode = this.hashFunction(key);
-    console.log('hashCode:', hashCode);
     const bucketCode = hashCode % this.bucketsArray.length;
-
-    // find bucket using hash code
-    console.log('bucketIndex:', bucketCode);
-    console.log('this.bucketsArray[bucketCode].size:', this.bucketsArray[bucketCode].size);
     const targetBucket = this.bucketsArray[bucketCode];
+
     if (targetBucket.size === 0) {
       targetBucket.append({ key, value });
       return targetBucket;
     }
-    // traverse linkedList until you find key
-    // check key against existingKey
-    // if key is same, overwrite old value with $value
+
     const indexOfResult = targetBucket.find({ key, value });
     if (indexOfResult) {
       targetBucket.removeAt(indexOfResult);
       targetBucket.insertAt({ key, value });
-      // [0,1,2,3,4]
-      // [0,1,3,4]
     } else {
       targetBucket.append({ key, value });
     }
@@ -81,9 +73,13 @@ class HashMap {
     // TODO: check fn_growBucketIfNeeded
 
     // if different key (still same bucket), create new node in linkedList
+    return targetBucket
   }
 
   get(key) {
+    const hashCode = this.hashFunction(key);
+    const bucketCode = hashCode % this.bucketsArray.length;
+
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
   }
   // TODO: has(key) takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
@@ -118,6 +114,5 @@ const hashMap1 = new HashMap();
 const result1 = hashMap1.set('test-key', 1);
 const result = hashMap1.set('key-test', 3);
 const resul3 = hashMap1.set('key-test', 5);
-console.log('result:', result);
 hashMap1.printBuckets();
 hashMap1.getLoadFactor();

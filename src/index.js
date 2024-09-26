@@ -65,6 +65,7 @@ class HashMap {
 
     const indexOfResult = targetBucket.find({ key, value });
     if (indexOfResult) {
+      console.log('%c same key found', 'color: blue')
       targetBucket.removeAt(indexOfResult);
       targetBucket.insertAt({ key, value });
     } else {
@@ -81,10 +82,11 @@ class HashMap {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
     const targetBucket = this.bucketsArray[bucketCode];
+    console.log('targetBucket:', targetBucket)
     if (targetBucket.size === 0) return null;
     const resultValue = targetBucket.at( targetBucket.find({key})).value.value
-console.log('result:', resultValue)
-
+  console.log('result:', resultValue)
+    return resultValue
     // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
   }
 
@@ -122,5 +124,6 @@ const result1 = hashMap1.set('test-key', 1);
 const result2 = hashMap1.set('key-test', 3);
 const result3 = hashMap1.set('key-test', 5);
 hashMap1.printBuckets();
-hashMap1.getLoadFactor();
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor)
 hashMap1.get('test-key')
+console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString())

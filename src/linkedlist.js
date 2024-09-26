@@ -27,7 +27,7 @@ function linkedList(listLocationIndex = null) {
   const index = listLocationIndex;
 
   function ifObjectThenGetKey(value) {
-    if (typeof value === 'Object') {
+    if (typeof value === 'object') {
       return (value = value.key);
     }
     return value;
@@ -56,24 +56,30 @@ function linkedList(listLocationIndex = null) {
     // TODO: calculate big O for time & space
     // MAYBE: use loop instead
     let stopConditionMet = false;
-    // const currentValue = currentNode.value;
-    const currentValue = typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value ;
-console.log('currentValue:', currentValue)
-    const 
-    methodSpecificConfigs = {
-      [contains]: { propertyValue: currentValue, callbackOptions: {} },
-      [find]: { propertyValue: currentValue, callbackOptions: currentIndex },
-      [at]: { propertyValue: currentIndex, callbackOptions: {} },
-      [pop]: { propertyValue: currentIndex, callbackOptions: {} },
-      [toString]: { propertyValue: currentIndex, callbackOptions: { printArray, currentNode } },
-      [insertAt]: { propertyValue: currentIndex, callbackOptions: {} },
-      [removeAt]: { propertyValue: currentIndex, callbackOptions: {} },
+    
+    // const currentValue =
+      // typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value;
+     const currentValue =  ifObjectThenGetKey(currentNode.value)
+    console.log('currentValue:', currentValue);
+
+    const methodSpecificConfigs = {
+      [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
+      [find]: { propertyThreshold: currentValue, callbackOptions: currentIndex },
+      [at]: { propertyThreshold: currentIndex, callbackOptions: {} },
+      [pop]: { propertyThreshold: currentIndex, callbackOptions: {} },
+      [toString]: { propertyThreshold: currentIndex, callbackOptions: { printArray, currentNode } },
+      [insertAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
+      [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
     };
 
-    // Defines the 'propertyValue' which is the threshold value for
+    // Defines the 'propertyThreshold' which is the threshold value for
     // 'targetProperty'. The condition will be true when this value is reached
     // or exceeded.
-    stopConditionMet = evaluator(methodSpecificConfigs[caller].propertyValue);
+
+    const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller].propertyThreshold)
+    console.log('propertyThreshold:', propertyThreshold)
+    
+    stopConditionMet = evaluator(propertyThreshold);
     // BASE CASE
     if (stopConditionMet) {
       //   console.log(`stop condition ${stopConditionMet} met`);
@@ -85,8 +91,8 @@ console.log('currentValue:', currentValue)
     if (currentNode === tail) return currentNode;
 
     // RECURSIVE CASE
-//!!! be sure to check if this is an object or not
-    printArray.push(JSON.stringify(currentNode.value))
+    //!!! be sure to check if this is an object or not
+    printArray.push(JSON.stringify(currentNode.value));
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
 
@@ -127,12 +133,12 @@ console.log('currentValue:', currentValue)
   }
 
   function find(targetValue) {
-    console.log('start find')
+    console.log('start find');
     function findCallback(currentIndex) {
       return currentIndex;
     }
     targetValue = ifObjectThenGetKey(targetValue);
-
+console.log('targetValue:', targetValue)
     const index = traverse({
       evaluator: createEvaluator(targetValue),
       caller: find,
@@ -148,10 +154,10 @@ console.log('currentValue:', currentValue)
       const { printArray, currentNode } = config;
       // console.log('starting toStringCallback');
       //FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
-      //each node, and print it all at the end 
-      
-      printArray.push(JSON.stringify(currentNode.value))
-      return printArray
+      //each node, and print it all at the end
+
+      printArray.push(JSON.stringify(currentNode.value));
+      return printArray;
       return `${printArray}( ${currentNode.value} ) -> ` + ' null';
     }
 
@@ -163,11 +169,10 @@ console.log('currentValue:', currentValue)
       printArray: [],
       caller: toString,
     });
-// console.log('toStringResultArray:', toStringResultArray)
-    const finalString =  toStringResultArray.join('->')
-    
+    // console.log('toStringResultArray:', toStringResultArray)
+    const finalString = toStringResultArray.join('->');
 
-    return finalString
+    return finalString;
   }
   function append(targetValue) {
     const newNodeReference = node(targetValue);
@@ -335,7 +340,7 @@ function testLinkedList() {
  *
  * @param {Object} config - Configuration object for creating the evaluator.
  * @param {Symbol} config.targetProperty - The name of the property to evaluate.
- * @param {Symbol} config.propertyValue - The value to compare against the target property.
+ * @param {Symbol} config.propertyThreshold - The value to compare against the target property.
  * @returns {Function} A bound evaluator function that can be used for property comparison.
  *
  * @example
@@ -343,15 +348,15 @@ function testLinkedList() {
  * const evaluator = createEvaluator(config);
  *
  * // Later usage (inside traverse() function):
- * evaluator.bind(null, {propertyValue: currentIndex})
+ * evaluator.bind(null, {propertyThreshold: currentIndex})
  *
  * @note The returned evaluator function is partially bound with the targetProperty.
  * Additional arguments can be passed when calling the evaluator within traverse().
  */
 
 function createEvaluator(targetProperty) {
-  return function evaluator(propertyValue) {
-    return targetProperty === propertyValue;
+  return function evaluator(property) {
+    return targetProperty === property;
   };
 }
 

@@ -160,8 +160,8 @@ function linkedList(listLocationIndex = null) {
 
   function toString() {
     if (size <= 0) return this;
-    console.log('%c calling toString()', 'color:red');
-    console.log('size:', size);
+    // console.log('%c calling toString()', 'color:red');
+    // console.log('size:', size);
     if (size === 1) {
       console.log('size is one')
       const finalString = traverse({
@@ -177,7 +177,7 @@ function linkedList(listLocationIndex = null) {
 
     function toStringCallback(config) {
       const { printArray, currentNode } = config;
-      console.log('%c starting toStringCallback', 'color:red');
+      // console.log('%c starting toStringCallback', 'color:red');
       // FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
       // each node, and print it all at the end
 

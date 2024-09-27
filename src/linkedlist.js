@@ -34,7 +34,9 @@ function linkedList(listLocationIndex = null) {
   }
 
   function setHeadTailIfSize0(newNodeReference) {
+
     if (size === 0) {
+      console.log('size is 0, setting head and tail')
       head = newNodeReference;
       tail = newNodeReference;
       return true;
@@ -53,7 +55,7 @@ function linkedList(listLocationIndex = null) {
       caller = null,
     } = config;
 
-    if (caller===null) throw new Error ('no caller passed to traverse()')
+    if (caller === null) throw new Error('no caller passed to traverse()');
     // TODO: calculate big O for time & space
     // MAYBE: use loop instead
     let stopConditionMet = false;
@@ -72,32 +74,36 @@ function linkedList(listLocationIndex = null) {
       [insertAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
     };
-
+    console.log('currentIndex:', currentIndex);
+    console.log('printArray:', printArray);
     // Defines the 'propertyThreshold' which is the threshold value for
     // 'targetProperty'. The condition will be true when this value is reached
     // or exceeded.
-    console.log('caller:', caller)
+    // console.log('caller:', caller)
     // console.log('methodSpecificConfigs[caller]. propertyThreshold:', methodSpecificConfigs[caller]. propertyThreshold)
-    const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller]. propertyThreshold);
+    const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller].propertyThreshold);
     console.log('propertyThreshold:', propertyThreshold);
 
     stopConditionMet = evaluator(propertyThreshold);
     // BASE CASE
     if (stopConditionMet) {
-      //   console.log(`stop condition ${stopConditionMet} met`);
+      console.log(`stop condition ${stopConditionMet} met for ${caller}`);
       if (callback !== null) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
       return currentNode;
     }
-    if (currentNode === tail) return currentNode;
+    if (currentNode === tail) {
+      console.log('reached tail...')
+      return currentNode;}
 
     // RECURSIVE CASE
-    //!!! be sure to check if this is an object or not
+    //! !! be sure to check if this is an object or not
+
     printArray.push(JSON.stringify(currentNode.value));
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
-
+console.log('about to return traverse...')
     return traverse({
       callback,
       evaluator,
@@ -151,12 +157,13 @@ function linkedList(listLocationIndex = null) {
 
   function toString() {
     if (size <= 0) return this;
+    console.log('%c calling toString()', 'color:red');
 
     function toStringCallback(config) {
       const { printArray, currentNode } = config;
-      // console.log('starting toStringCallback');
-      //FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
-      //each node, and print it all at the end
+      console.log('%c starting toStringCallback', 'color:red');
+      // FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
+      // each node, and print it all at the end
 
       printArray.push(JSON.stringify(currentNode.value));
       return printArray;
@@ -171,7 +178,7 @@ function linkedList(listLocationIndex = null) {
       printArray: [],
       caller: toString,
     });
-    // console.log('toStringResultArray:', toStringResultArray)
+    console.log('toStringResultArray:', toStringResultArray);
     const finalString = toStringResultArray.join('->');
 
     return finalString;
@@ -210,8 +217,8 @@ function linkedList(listLocationIndex = null) {
       append(targetValue);
       return;
     }
-//FIXME: condition1 not valid config
-    const insertionPoint = traverse({evaluator: createEvaluator(targetIndex), caller: insertAt  });
+    // FIXME: condition1 not valid config
+    const insertionPoint = traverse({ evaluator: createEvaluator(targetIndex), caller: insertAt });
     const newNode = node(targetValue, insertionPoint.next);
     insertionPoint.next = newNode;
     size += 1;
@@ -220,12 +227,15 @@ function linkedList(listLocationIndex = null) {
 
   function removeAt(targetIndex) {
     isIndexValid(targetIndex);
-    if (targetIndex === 0) {
-      aList.pop;
-      return;
-    }
+    // if (targetIndex === 0) {
+    //   aList.pop;
+    //   return;
+    // }
 
-    const nodeBeforeTarget = traverse({evaluator: createEvaluator(targetIndex - 1), caller: removeAt  });
+    const nodeBeforeTarget = traverse({
+      evaluator: createEvaluator(targetIndex - 1),
+      caller: removeAt,
+    });
     const removalTarget = { ...nodeBeforeTarget.next };
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     if (targetIndex === size - 1) {
@@ -356,8 +366,10 @@ function testLinkedList() {
  */
 
 function createEvaluator(targetProperty) {
-  return function evaluator(property) {
-    return targetProperty === property;
+  return function evaluator(propertyThreshold) {
+    console.log('propertyThreshold:', propertyThreshold);
+    console.log('targetProperty:', targetProperty);
+    return targetProperty === propertyThreshold;
   };
 }
 

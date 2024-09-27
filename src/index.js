@@ -33,6 +33,7 @@ class HashMap {
 
   printBuckets() {
     this.bucketsArray.forEach((bucket) => {
+      console.log('bucket:', bucket)
       const printResult = bucket.toString();
       console.log('printResult:', printResult);
     });

@@ -62,7 +62,7 @@ function linkedList(listLocationIndex = null) {
     // const currentValue =
     // typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value;
     const currentValue = ifObjectThenGetKey(currentNode.value);
-    console.log('currentValue:', currentValue);
+    // console.log('currentValue:', currentValue);
 
     const methodSpecificConfigs = {
       [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
@@ -73,8 +73,8 @@ function linkedList(listLocationIndex = null) {
       [insertAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
     };
-    console.log('currentIndex:', currentIndex);
-    console.log('printArray:', printArray);
+    // console.log('currentIndex:', currentIndex);
+    // console.log('printArray:', printArray);
     // Defines the 'propertyThreshold' which is the threshold value for
     // 'targetProperty'. The condition will be true when this value is reached
     // or exceeded.
@@ -86,7 +86,7 @@ function linkedList(listLocationIndex = null) {
     stopConditionMet = evaluator(propertyThreshold);
     // BASE CASE
     if (stopConditionMet) {
-      console.log(`stop condition ${stopConditionMet} met for ${caller}`);
+      console.log(`stop condition ${stopConditionMet} met for`, {caller});
       if (callback !== null) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
@@ -234,7 +234,7 @@ function linkedList(listLocationIndex = null) {
       return;
     }
     if (targetIndex >= size - 1) {
-      console.warn('target index is larger than size')
+      console.warn('target index is larger than size');
       append(targetValue);
       return;
     }
@@ -260,7 +260,7 @@ function linkedList(listLocationIndex = null) {
 
     const removalTarget = { ...nodeBeforeTarget.next };
     console.log('removalTarget:', removalTarget);
-    //Link the node before the target to the node afte the target
+    // Link the node before the target to the node afte the target
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
     // size -= 1;
 
@@ -395,8 +395,8 @@ function testLinkedList() {
 
 function createEvaluator(targetProperty) {
   return function evaluator(propertyThreshold) {
-    console.log('propertyThreshold:', propertyThreshold);
-    console.log('targetProperty:', targetProperty);
+    // console.log('propertyThreshold:', propertyThreshold);
+    // console.log('targetProperty:', targetProperty);
     return targetProperty === propertyThreshold;
   };
 }

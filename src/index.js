@@ -33,9 +33,9 @@ class HashMap {
 
   printBuckets() {
     this.bucketsArray.forEach((bucket) => {
-      console.log('bucket:', bucket)
+      // console.log('bucket:', bucket);
       const printResult = bucket.toString();
-      console.log('printResult:', printResult);
+      // console.log('printResult:', printResult);
     });
   }
 
@@ -46,7 +46,7 @@ class HashMap {
       this.bucketsArray.reduce((previous, current) => previous + current.size, 0) /
       this.bucketsArray.length;
     console.log('loadFactor:', loadFactor);
-    return loadFactor
+    return loadFactor;
   }
 
   growBucketIfNeeded() {
@@ -77,23 +77,22 @@ class HashMap {
     // TODO: check fn_growBucketIfNeeded
 
     // if different key (still same bucket), create new node in linkedList
-    return targetBucket
+    return targetBucket;
   }
 
   get(key) {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
     const targetBucket = this.bucketsArray[bucketCode];
-    console.log('targetBucket:', targetBucket)
+    console.log('targetBucket:', targetBucket);
     if (targetBucket.size === 0) return null;
-    const resultValue = targetBucket.at( targetBucket.find({key})).value.value
-  console.log('result:', resultValue)
-    return resultValue
-    // TODO: get(key) takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
+    const resultValue = targetBucket.at(targetBucket.find({ key })).value.value;
+    console.log('result:', resultValue);
+    return resultValue;
   }
 
-
   // TODO: has(key) takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
+
 
   // TODO: remove(key) takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
 
@@ -111,10 +110,10 @@ class HashMap {
   /** @param {String} key  */
   customHashFunction(key) {
     let charCodeSum = 0;
-    //Use golden ratio
-    const fractionConstant = 0.618033;
+    // Use golden ratio
+    const fractionConstant = 0.618_033;
     for (let index = 0; index < key.length; index++) {
-     charCodeSum += key.charCodeAt(index)
+      charCodeSum += key.charCodeAt(index);
     }
     const hashCode = Math.floor(((charCodeSum * fractionConstant) % 1) * this.bucketsArray.length);
     return hashCode;
@@ -131,13 +130,13 @@ const result2 = hashMap1.set('key-test', 1);
 const result3 = hashMap1.set('key-test', 2);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
 
-
 hashMap1.printBuckets();
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor)
-hashMap1.get('test-key')
-console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString())
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString());
 
-    //[0,1,] size 2
-    //removeAt(1)
-    //[0]
-    //insertAt(1)
+const get = hashMap1.get('key-test');
+console.log('get:', get)
+// [0,1,] size 2
+// removeAt(1)
+// [0]
+// insertAt(1)

@@ -87,7 +87,7 @@ function linkedList(listLocationIndex = null) {
     // BASE CASE
     if (stopConditionMet) {
       // console.log(`stop condition ${stopConditionMet} met for`, {caller});
-      if (callback !== null) {
+      if (callback) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
       return currentNode;
@@ -247,10 +247,12 @@ function linkedList(listLocationIndex = null) {
 
   function removeAt(targetIndex) {
     isIndexValid(targetIndex);
-    // if (targetIndex === 0) {
-    //   aList.pop;
-    //   return;
-    // }
+    //!!! not sure if this correctly "removes the first"
+    if (targetIndex === 0) {
+      const target = at(targetIndex)
+      head = target.next;
+      return;
+    }
 
     const nodeBeforeTarget = traverse({
       evaluator: createEvaluator(targetIndex - 1),

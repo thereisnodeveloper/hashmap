@@ -65,7 +65,9 @@ class HashMap {
     }
 
     const indexOfResult = targetBucket.find({ key, value });
-    if (indexOfResult) {
+    // if (indexOfResult) {
+    if (indexOfResult || indexOfResult === 0) {
+
       console.log('%c same key found', 'color: blue');
       console.log(`%c index: ${indexOfResult}`, 'color: blue');
       targetBucket.removeAt(indexOfResult);
@@ -92,11 +94,25 @@ class HashMap {
     return resultValue;
   }
   has(key) {
-    if(this.get(key) === null || this.get(key) === undefined) return false;
-    return true
+    if (this.get(key) === null || this.get(key) === undefined) return false;
+    return true;
   }
 
   // TODO: remove(key) takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
+  remove(key) {
+    const hashCode = this.hashFunction(key);
+    const bucketCode = hashCode % this.bucketsArray.length;
+    const targetBucket = this.bucketsArray[bucketCode];
+    if (targetBucket.size === 0) return null;
+
+    const indexOfResult = targetBucket.find({key});
+    if (indexOfResult || indexOfResult === 0) {
+      console.log(`%c key found at ${indexOfResult}`, 'color: green');
+      targetBucket.removeAt(indexOfResult);
+      return true
+    }
+    return false;
+  }
 
   // TODO: length() returns the number of stored keys in the hash map.
 
@@ -136,12 +152,7 @@ hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString());
 
-const get = hashMap1.get('key-test');
-console.log('get:', get);
-// [0,1,] size 2
-// removeAt(1)
-// [0]
-// insertAt(1)
-
-const result = hashMap1.has('test-key')
+const result = 
+hashMap1.remove('test-key')
 console.log('result:', result)
+hashMap1.printBuckets()

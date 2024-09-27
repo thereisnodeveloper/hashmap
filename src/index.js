@@ -67,7 +67,6 @@ class HashMap {
     const indexOfResult = targetBucket.find({ key, value });
     // if (indexOfResult) {
     if (indexOfResult || indexOfResult === 0) {
-
       console.log('%c same key found', 'color: blue');
       console.log(`%c index: ${indexOfResult}`, 'color: blue');
       targetBucket.removeAt(indexOfResult);
@@ -105,16 +104,22 @@ class HashMap {
     const targetBucket = this.bucketsArray[bucketCode];
     if (targetBucket.size === 0) return null;
 
-    const indexOfResult = targetBucket.find({key});
+    const indexOfResult = targetBucket.find({ key });
     if (indexOfResult || indexOfResult === 0) {
       console.log(`%c key found at ${indexOfResult}`, 'color: green');
-      console.log('size before remove:', targetBucket.size)
+      console.log('size before remove:', targetBucket.size);
       targetBucket.removeAt(indexOfResult);
-      return true
+      return true;
     }
     return false;
   }
 
+  length() {
+    let sumOfBucketSizes = this.bucketsArray.reduce((prev, curr) => { 
+      return prev + curr.size;
+    },0);
+    return sumOfBucketSizes
+  }
   // TODO: length() returns the number of stored keys in the hash map.
 
   // TODO: clear() removes all entries in the hash map.
@@ -148,11 +153,14 @@ const result2 = hashMap1.set('key-test', 1);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
 const result3 = hashMap1.set('key-test', 2);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+hashMap1.set('ewqewq',3)
+hashMap1.set('ffffffff',4)
 
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
-// const result = 
+// const result =
 // hashMap1.remove('test-key')
 // console.log('remove result:', result)
-hashMap1.printBuckets()
+hashMap1.printBuckets();
+console.log(hashMap1.length());

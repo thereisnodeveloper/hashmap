@@ -108,6 +108,7 @@ class HashMap {
     const indexOfResult = targetBucket.find({key});
     if (indexOfResult || indexOfResult === 0) {
       console.log(`%c key found at ${indexOfResult}`, 'color: green');
+      console.log('size before remove:', targetBucket.size)
       targetBucket.removeAt(indexOfResult);
       return true
     }
@@ -150,9 +151,8 @@ const result3 = hashMap1.set('key-test', 2);
 
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
-console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString());
 
 const result = 
 hashMap1.remove('test-key')
-console.log('result:', result)
+console.log('remove result:', result)
 hashMap1.printBuckets()

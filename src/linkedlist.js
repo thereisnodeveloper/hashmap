@@ -93,6 +93,9 @@ function linkedList(listLocationIndex = null) {
       return currentNode;
     }
     if (currentNode === tail) {
+      // if(caller === toString){
+      //   return printArray
+      // }
       console.log('reached tail...');
       return currentNode;
     }
@@ -158,6 +161,18 @@ function linkedList(listLocationIndex = null) {
   function toString() {
     if (size <= 0) return this;
     console.log('%c calling toString()', 'color:red');
+    console.log('size:', size);
+    if (size === 1) {
+      const finalString = traverse({
+        evaluator: createEvaluator(size - 1),
+        callback: toStringCallback,
+        currentNode: head,
+        currentIndex: 0,
+        printArray: [],
+        caller: toString,
+      });
+      return finalString;
+    }
 
     function toStringCallback(config) {
       const { printArray, currentNode } = config;
@@ -247,10 +262,11 @@ function linkedList(listLocationIndex = null) {
 
   function removeAt(targetIndex) {
     isIndexValid(targetIndex);
-    //!!! not sure if this correctly "removes the first"
+    //! !! not sure if this correctly "removes the first"
     if (targetIndex === 0) {
-      const target = at(targetIndex)
+      const target = at(targetIndex);
       head = target.next;
+      size -=1
       return;
     }
 
@@ -273,6 +289,7 @@ function linkedList(listLocationIndex = null) {
       console.log('NEW tail:', tail);
     }
     size -= 1;
+    console.log('size after removeAt: ', size)
     return removalTarget;
   }
 

@@ -66,9 +66,10 @@ class HashMap {
 
     const indexOfResult = targetBucket.find({ key, value });
     if (indexOfResult) {
-      console.log('%c same key found', 'color: blue')
+      console.log('%c same key found', 'color: blue');
+      console.log(`%c index: ${indexOfResult}`, 'color: blue');
       targetBucket.removeAt(indexOfResult);
-      targetBucket.insertAt({ key, value });
+      targetBucket.insertAt({ key, value }, indexOfResult);
     } else {
       targetBucket.append({ key, value });
     }
@@ -121,10 +122,22 @@ class HashMap {
 }
 
 const hashMap1 = new HashMap();
-const result1 = hashMap1.set('test-key', 1);
-const result2 = hashMap1.set('key-test', 3);
-const result3 = hashMap1.set('key-test', 5);
+
+// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+const result1 = hashMap1.set('test-key', 0);
+// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+const result2 = hashMap1.set('key-test', 1);
+// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+const result3 = hashMap1.set('key-test', 2);
+// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+
+
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor)
 hashMap1.get('test-key')
 console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString())
+
+    //[0,1,] size 2
+    //removeAt(1)
+    //[0]
+    //insertAt(1)

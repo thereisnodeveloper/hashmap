@@ -34,9 +34,8 @@ function linkedList(listLocationIndex = null) {
   }
 
   function setHeadTailIfSize0(newNodeReference) {
-
     if (size === 0) {
-      console.log('size is 0, setting head and tail')
+      console.log('size is 0, setting head and tail');
       head = newNodeReference;
       tail = newNodeReference;
       return true;
@@ -94,8 +93,9 @@ function linkedList(listLocationIndex = null) {
       return currentNode;
     }
     if (currentNode === tail) {
-      console.log('reached tail...')
-      return currentNode;}
+      console.log('reached tail...');
+      return currentNode;
+    }
 
     // RECURSIVE CASE
     //! !! be sure to check if this is an object or not
@@ -103,7 +103,7 @@ function linkedList(listLocationIndex = null) {
     printArray.push(JSON.stringify(currentNode.value));
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
-console.log('about to return traverse...')
+    console.log('about to return traverse...');
     return traverse({
       callback,
       evaluator,
@@ -206,18 +206,38 @@ console.log('about to return traverse...')
     return newNodeReference;
   }
 
+  /**
+   * Inserts a new node with the specified value at the given index in the linked list.
+   *
+   * @param {*} targetValue - The value to be inserted into the linked list.
+   * @param {number} targetIndex - The index at which the new node should be inserted.
+   * @throws {Error} If the targetIndex is out of bounds (less than 0 or greater than the list length).
+   * @returns {void}
+   *
+   * @example
+   * // Assuming a linked list with values [1, 2, 3]
+   * insertAt(4, 1);
+   * // The list will now be [1, 4, 2, 3]
+   *
+   * @description
+   * This function inserts a new node with the given targetValue at the specified targetIndex.
+   * If targetIndex is 0, the new node becomes the head of the list.
+   * If targetIndex equals the length of the list, the new node is appended to the end.
+   * For any other valid index, the new node is inserted between existing nodes.
+   */
   function insertAt(targetValue, targetIndex) {
-    isIndexValid(targetIndex);
-    function insertAtCallback() {}
+    console.log('%c insertAt() called', 'color:red');
+    // isIndexValid(targetIndex);
+
     if (targetIndex === 0) {
       prepend(targetValue);
       return;
     }
-    if (targetIndex === size - 1) {
+    if (targetIndex >= size - 1) {
+      console.warn('target index is larger than size')
       append(targetValue);
       return;
     }
-    // FIXME: condition1 not valid config
     const insertionPoint = traverse({ evaluator: createEvaluator(targetIndex), caller: insertAt });
     const newNode = node(targetValue, insertionPoint.next);
     insertionPoint.next = newNode;
@@ -236,11 +256,19 @@ console.log('about to return traverse...')
       evaluator: createEvaluator(targetIndex - 1),
       caller: removeAt,
     });
+    console.log('nodeBeforeTarget:', nodeBeforeTarget);
+
     const removalTarget = { ...nodeBeforeTarget.next };
+    console.log('removalTarget:', removalTarget);
+    //Link the node before the target to the node afte the target
     nodeBeforeTarget.next = nodeBeforeTarget.next.next;
+    // size -= 1;
+
+    console.log('size:', size);
     if (targetIndex === size - 1) {
+      console.log('target index is size -1 , its the last one');
       tail = nodeBeforeTarget;
-      //   console.log('NEW tail:', tail);
+      console.log('NEW tail:', tail);
     }
     size -= 1;
     return removalTarget;
@@ -375,5 +403,6 @@ function createEvaluator(targetProperty) {
 
 // Run the tests
 // testLinkedList();
+const ll = linkedList();
 
 export { linkedList };

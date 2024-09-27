@@ -35,7 +35,7 @@ class HashMap {
     this.bucketsArray.forEach((bucket) => {
       // console.log('bucket:', bucket);
       const printResult = bucket.toString();
-      // console.log('printResult:', printResult);
+      console.log('printResult:', printResult);
     });
   }
 
@@ -152,7 +152,7 @@ const result3 = hashMap1.set('key-test', 2);
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
-const result = 
-hashMap1.remove('test-key')
-console.log('remove result:', result)
+// const result = 
+// hashMap1.remove('test-key')
+// console.log('remove result:', result)
 hashMap1.printBuckets()

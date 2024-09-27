@@ -163,6 +163,7 @@ function linkedList(listLocationIndex = null) {
     console.log('%c calling toString()', 'color:red');
     console.log('size:', size);
     if (size === 1) {
+      console.log('size is one')
       const finalString = traverse({
         evaluator: createEvaluator(size - 1),
         callback: toStringCallback,

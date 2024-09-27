@@ -81,12 +81,12 @@ function linkedList(listLocationIndex = null) {
     // console.log('caller:', caller)
     // console.log('methodSpecificConfigs[caller]. propertyThreshold:', methodSpecificConfigs[caller]. propertyThreshold)
     const propertyThreshold = ifObjectThenGetKey(methodSpecificConfigs[caller].propertyThreshold);
-    console.log('propertyThreshold:', propertyThreshold);
+    // console.log('propertyThreshold:', propertyThreshold);
 
     stopConditionMet = evaluator(propertyThreshold);
     // BASE CASE
     if (stopConditionMet) {
-      console.log(`stop condition ${stopConditionMet} met for`, {caller});
+      // console.log(`stop condition ${stopConditionMet} met for`, {caller});
       if (callback !== null) {
         return callback(methodSpecificConfigs[caller].callbackOptions);
       }
@@ -103,7 +103,7 @@ function linkedList(listLocationIndex = null) {
     printArray.push(JSON.stringify(currentNode.value));
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
-    console.log('about to return traverse...');
+    // console.log('about to return traverse...');
     return traverse({
       callback,
       evaluator,

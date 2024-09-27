@@ -87,12 +87,14 @@ class HashMap {
     console.log('targetBucket:', targetBucket);
     if (targetBucket.size === 0) return null;
     const resultValue = targetBucket.at(targetBucket.find({ key })).value.value;
-    console.log('result:', resultValue);
+    // console.log('result:', resultValue);
+
     return resultValue;
   }
-
-  // TODO: has(key) takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
-
+  has(key) {
+    if(this.get(key) === null || this.get(key) === undefined) return false;
+    return true
+  }
 
   // TODO: remove(key) takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
 
@@ -135,8 +137,11 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 console.log('hashMap1.bucketsArray[0].toString():', hashMap1.bucketsArray[0].toString());
 
 const get = hashMap1.get('key-test');
-console.log('get:', get)
+console.log('get:', get);
 // [0,1,] size 2
 // removeAt(1)
 // [0]
 // insertAt(1)
+
+const result = hashMap1.has('test-key')
+console.log('result:', result)

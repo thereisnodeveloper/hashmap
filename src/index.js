@@ -54,6 +54,18 @@ class HashMap {
     // TODO: doubles bucket size if we reach loadFactorThreshold
   }
 
+  /**
+   * Sets a key-value pair in the hash table.
+   * @example
+   * set('myKey', 'myValue')
+   * { key: 'myKey', value: 'myValue' }
+   * @param {string} key - The key associated with the value.
+   * @param {*} value - The value to be stored.
+   * @returns {Object} The bucket where the key-value pair is stored.
+   * @description
+   *   - Handles collisions by checking for existing keys in the bucket.
+   *   - Replaces the value if the key already exists.
+   */
   set(key, value) {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
@@ -115,14 +127,27 @@ class HashMap {
   }
 
   length() {
-    let sumOfBucketSizes = this.bucketsArray.reduce((prev, curr) => { 
+/**
+     * Accumulates the sizes of elements in an array.
+     * @example
+     * (prev, curr) => {
+     *   return prev + curr.size;
+     * }
+     * @param {number} prev - The accumulated size from previous elements.
+     * @param {Object} curr - The current object in the array.
+     * @returns {number} The new accumulated size after adding the current object's size.
+     * @description
+     *   - Assumes 'curr' has a property 'size' that is a number.
+     */
+    let sumOfBucketSizes = this.bucketsArray.reduce((prev, curr) => {
       return prev + curr.size;
-    },0);
-    return sumOfBucketSizes
+    }, 0);
+    return sumOfBucketSizes;
   }
-  // TODO: length() returns the number of stored keys in the hash map.
 
-  // TODO: clear() removes all entries in the hash map.
+  clear() {
+    this.initiateBuckets();
+  }
 
   // TODO: keys() returns an array containing all the keys inside the hash map.
 
@@ -146,21 +171,20 @@ class HashMap {
 
 const hashMap1 = new HashMap();
 
-// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+// console.log('hashMap1.bucketsArray[0].size:',  hashMap1.bucketsArray[0].size)
 const result1 = hashMap1.set('test-key', 0);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
 const result2 = hashMap1.set('key-test', 1);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
 const result3 = hashMap1.set('key-test', 2);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
-hashMap1.set('ewqewq',3)
-hashMap1.set('ffffffff',4)
+hashMap1.set('ewqewq', 3);
+hashMap1.set('ffffffff', 4);
+hashMap1.set('fffffff', 5);
 
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
-// const result =
-// hashMap1.remove('test-key')
-// console.log('remove result:', result)
+hashMap1.clear();
 hashMap1.printBuckets();
-console.log(hashMap1.length());
+console.log('length:', hashMap1.length());

@@ -146,25 +146,18 @@ class HashMap {
     this.initiateBuckets();
   }
 
-  /**
-   * Logs each bucket in the bucketsArray to the console.
-   * @example
-   * keys()
-   * // logs each bucket
-   * @param {Array} this.bucketsArray - Array of buckets to be logged.
-   * @returns {void} No return value.
-   * @description
-   *   - Iterates through all elements in this.bucketsArray.
-   *   - Outputs each element to the console prefixed with 'bucket:'.
-   */
-  keys() {
+ // keys() returns an array containing all the keys inside the hash map.
+ keys() {
+  const finalArray = []
     this.bucketsArray.forEach((bucket) => {
-      console.log('bucket:', bucket.showStorageArray());
+      const bucketKeyValuesArray = bucket.showStorageArray()
+      if(bucketKeyValuesArray) finalArray.push(bucket.showStorageArray())
     });
+    return finalArray
   }
-  // TODO: keys() returns an array containing all the keys inside the hash map.
 
   // TODO: values() returns an array containing all the values.
+
 
   // TODO: entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
@@ -204,4 +197,4 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.printBuckets();
 console.log('length:', hashMap1.length());
 
-hashMap1.keys();
+console.log( hashMap1.keys())

@@ -44,11 +44,15 @@ function linkedList(listLocationIndex = null) {
   }
 
   function showStorageArray() {
-    function showStorageArrayCallback(storageArray) {
-      // const { storageArray } = configs;
+    const storageArray = [] //initiate outside recursion
+    function showStorageArrayCallback(config) {
+    const {keyValueArray} = config
+      storageArray.push(keyValueArray)
+      // console.log('storageArray', storageArray)
       return storageArray;
     }
-    // showStorageArrayCallback = showStorageArrayCallback.bind(null, { storageArray: [] });
+    // showStorageArrayCallback = showStorageArrayCallback.bind(null, {
+    // storageArray: [] });
     return traverse({
       evaluator: createEvaluator(size - 1),
       caller: showStorageArray,
@@ -80,9 +84,13 @@ function linkedList(listLocationIndex = null) {
     if (currentNode && typeof currentNode.value === 'object') {
       keyValueArray = [currentNode.value.key, currentNode.value.value];
     }
+    // console.log('keyValueArray:', keyValueArray)
     // if (caller === showStorageArray) {
-    const storageArray = [];
+    // const storageArray = [];
     // }
+
+    let thing = []
+
 
     const methodSpecificConfigs = {
       [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
@@ -94,15 +102,15 @@ function linkedList(listLocationIndex = null) {
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [showStorageArray]: {
         propertyThreshold: currentIndex,
-        callbackOptions: { storageArray: storageArray.push(keyValueArray) },
+        callbackOptions: { keyValueArray:keyValueArray },
       },
+      // [showStorageArray]: {
+      //   propertyThreshold: currentIndex,
+      //   callbackOptions: { thing: thing.push('xyz') },
+      // },
     };
 
-    // methodSpecificConfigs[showStorageArray] =
-    //   currentNode && typeof currentNode.value === 'object'
-    //   && caller === showStorageArray
-    //     ? { storageArray: [].push([...keyValueArray]) }
-    //     : { storageArray: [].push(null) };
+
 
     // console.log('currentIndex:', currentIndex);
     // console.log('printArray:', printArray);
@@ -132,7 +140,13 @@ function linkedList(listLocationIndex = null) {
     }
 
     // RECURSIVE CASE
-    //! !! be sure to check if this is an object or not
+
+    
+    if(currentNode && typeof currentNode.value === 'object'
+      && caller === showStorageArray){
+        //execute showStorageArrayCallback, which adds to 
+        callback({keyValueArray: keyValueArray})
+      }
 
     printArray.push(JSON.stringify(currentNode.value));
 
@@ -308,7 +322,6 @@ function linkedList(listLocationIndex = null) {
     size += 1;
     return newNode;
   }
-
   function removeAt(targetIndex) {
     isIndexValid(targetIndex);
     //! !! not sure if this correctly "removes the first"

@@ -42,8 +42,9 @@ class HashMap {
   get loadFactor() {
     // checks how many buckets are 'empty'
     // reduce probably
-    const loadFactor = this.bucketsArray.reduce((previous, current) => previous + current.size, 0)
-      / this.bucketsArray.length;
+    const loadFactor =
+      this.bucketsArray.reduce((previous, current) => previous + current.size, 0) /
+      this.bucketsArray.length;
     console.log('loadFactor:', loadFactor);
     return loadFactor;
   }
@@ -138,7 +139,10 @@ class HashMap {
      * @description
      *   - Assumes 'curr' has a property 'size' that is a number.
      */
-    const sumOfBucketSizes = this.bucketsArray.reduce((previous, current) => previous + current.size, 0);
+    const sumOfBucketSizes = this.bucketsArray.reduce(
+      (previous, current) => previous + current.size,
+      0
+    );
     return sumOfBucketSizes;
   }
 
@@ -146,22 +150,30 @@ class HashMap {
     this.initiateBuckets();
   }
 
- // keys() returns an array containing all the keys inside the hash map.
- keys() {
-  const finalArray = []
-    this.bucketsArray.forEach((bucket) => {
-      const bucketKeyValuesArray = bucket.showStorageArray()
-      if(bucketKeyValuesArray) finalArray.push(bucket.showStorageArray())
-    });
-    return finalArray
+  // keys() returns an array containing all the keys inside the hash map.
+  keys() {
+   
   }
 
   // TODO: values() returns an array containing all the values.
-
+  values() {
+    keys().map(entry)
+  
+  }
 
   // TODO: entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
 
+  entries() {
+    const finalArray = [];
+    this.bucketsArray.forEach((bucket) => {
+      const bucketKeyValuesArray = bucket.showStorageArray();
+      if (bucketKeyValuesArray) finalArray.push(bucket.showStorageArray());
+    });
+    return finalArray;
+  }
+
+  
   /** @param {String} key  */
   customHashFunction(key) {
     let charCodeSum = 0;
@@ -197,4 +209,4 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.printBuckets();
 console.log('length:', hashMap1.length());
 
-console.log( hashMap1.keys())
+console.log(hashMap1.keys());

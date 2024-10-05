@@ -42,6 +42,20 @@ function linkedList(listLocationIndex = null) {
     }
     return false;
   }
+
+  function showStorageArray() {
+    function showStorageArrayCallback(storageArray) {
+      // const { storageArray } = configs;
+      return storageArray;
+    }
+    // showStorageArrayCallback = showStorageArrayCallback.bind(null, { storageArray: [] });
+    return traverse({
+      evaluator: createEvaluator(size - 1),
+      caller: showStorageArray,
+      callback: showStorageArrayCallback,
+    });
+  }
+
   /** @type {{evaluator: Function, callback: Function, currentNode: Symbol,
    * currentIndex: Number, printArray: Array, caller: Function }} */
   function traverse(config) {
@@ -59,10 +73,16 @@ function linkedList(listLocationIndex = null) {
     // MAYBE: use loop instead
     let stopConditionMet = false;
 
-    // const currentValue =
-    // typeof currentNode.value === 'object' ? currentNode.value.key : currentNode.value;
-    const currentValue = ifObjectThenGetKey(currentNode.value);
-    // console.log('currentValue:', currentValue);
+    let [currentValue, keyValueArray] = [];
+    if (currentNode) {
+      currentValue = ifObjectThenGetKey(currentNode.value);
+    }
+    if (currentNode && typeof currentNode.value === 'object') {
+      keyValueArray = [currentNode.value.key, currentNode.value.value];
+    }
+    // if (caller === showStorageArray) {
+    const storageArray = [];
+    // }
 
     const methodSpecificConfigs = {
       [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
@@ -72,7 +92,18 @@ function linkedList(listLocationIndex = null) {
       [toString]: { propertyThreshold: currentIndex, callbackOptions: { printArray, currentNode } },
       [insertAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
+      [showStorageArray]: {
+        propertyThreshold: currentIndex,
+        callbackOptions: { storageArray: storageArray.push(keyValueArray) },
+      },
     };
+
+    // methodSpecificConfigs[showStorageArray] =
+    //   currentNode && typeof currentNode.value === 'object'
+    //   && caller === showStorageArray
+    //     ? { storageArray: [].push([...keyValueArray]) }
+    //     : { storageArray: [].push(null) };
+
     // console.log('currentIndex:', currentIndex);
     // console.log('printArray:', printArray);
     // Defines the 'propertyThreshold' which is the threshold value for
@@ -104,16 +135,22 @@ function linkedList(listLocationIndex = null) {
     //! !! be sure to check if this is an object or not
 
     printArray.push(JSON.stringify(currentNode.value));
+
+    // storageArray.push(keyValueArray);
     // .concat(`( ${currentNode.value} )`, '->');
     currentNode = currentNode.next;
     // console.log('about to return traverse...');
+
+    // ??? printArray could be initialized in callback, callback is passed to the
+    // next traverse call
     return traverse({
       callback,
       evaluator,
       currentNode,
       currentIndex: currentIndex + 1,
-      printArray,
       caller,
+      printArray,
+      // storageArray,
     });
   }
 
@@ -136,6 +173,17 @@ function linkedList(listLocationIndex = null) {
 
     return last;
   }
+  /**
+   * Determines if the target value is present in the current node
+   * @example
+   * contains(42)
+   * true
+   * @param {any} targetValue - The value to be checked for presence.
+   * @returns {boolean} Returns true if the target value is found, otherwise false.
+   * @description
+   *   - Uses a traversal function to evaluate nodes.
+   *   - Compares the value of the current node with the target value.
+   */
   function contains(targetValue) {
     // function containsCallback() {}
     const currentNode = traverse({ evaluator: createEvaluator(targetValue), caller: contains });
@@ -163,7 +211,7 @@ function linkedList(listLocationIndex = null) {
     // console.log('%c calling toString()', 'color:red');
     // console.log('size:', size);
     if (size === 1) {
-      console.log('size is one')
+      console.log('size is one');
       const finalString = traverse({
         evaluator: createEvaluator(size - 1),
         callback: toStringCallback,
@@ -267,7 +315,7 @@ function linkedList(listLocationIndex = null) {
     if (targetIndex === 0) {
       const target = at(targetIndex);
       head = target.next;
-      size -=1
+      size -= 1;
       return;
     }
 
@@ -290,7 +338,7 @@ function linkedList(listLocationIndex = null) {
       console.log('NEW tail:', tail);
     }
     size -= 1;
-    console.log('size after removeAt: ', size)
+    console.log('size after removeAt:', size);
     return removalTarget;
   }
 
@@ -334,6 +382,7 @@ function linkedList(listLocationIndex = null) {
     insertAt,
     removeAt,
     node,
+    showStorageArray,
   };
 }
 

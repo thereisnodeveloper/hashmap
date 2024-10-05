@@ -42,9 +42,8 @@ class HashMap {
   get loadFactor() {
     // checks how many buckets are 'empty'
     // reduce probably
-    const loadFactor =
-      this.bucketsArray.reduce((previous, current) => previous + current.size, 0) /
-      this.bucketsArray.length;
+    const loadFactor = this.bucketsArray.reduce((previous, current) => previous + current.size, 0)
+      / this.bucketsArray.length;
     console.log('loadFactor:', loadFactor);
     return loadFactor;
   }
@@ -104,12 +103,12 @@ class HashMap {
 
     return resultValue;
   }
+
   has(key) {
     if (this.get(key) === null || this.get(key) === undefined) return false;
     return true;
   }
 
-  // TODO: remove(key) takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
   remove(key) {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
@@ -127,7 +126,7 @@ class HashMap {
   }
 
   length() {
-/**
+    /**
      * Accumulates the sizes of elements in an array.
      * @example
      * (prev, curr) => {
@@ -139,9 +138,7 @@ class HashMap {
      * @description
      *   - Assumes 'curr' has a property 'size' that is a number.
      */
-    let sumOfBucketSizes = this.bucketsArray.reduce((prev, curr) => {
-      return prev + curr.size;
-    }, 0);
+    const sumOfBucketSizes = this.bucketsArray.reduce((previous, current) => previous + current.size, 0);
     return sumOfBucketSizes;
   }
 
@@ -149,6 +146,22 @@ class HashMap {
     this.initiateBuckets();
   }
 
+  /**
+   * Logs each bucket in the bucketsArray to the console.
+   * @example
+   * keys()
+   * // logs each bucket
+   * @param {Array} this.bucketsArray - Array of buckets to be logged.
+   * @returns {void} No return value.
+   * @description
+   *   - Iterates through all elements in this.bucketsArray.
+   *   - Outputs each element to the console prefixed with 'bucket:'.
+   */
+  keys() {
+    this.bucketsArray.forEach((bucket) => {
+      console.log('bucket:', bucket.showStorageArray());
+    });
+  }
   // TODO: keys() returns an array containing all the keys inside the hash map.
 
   // TODO: values() returns an array containing all the values.
@@ -181,10 +194,14 @@ const result3 = hashMap1.set('key-test', 2);
 hashMap1.set('ewqewq', 3);
 hashMap1.set('ffffffff', 4);
 hashMap1.set('fffffff', 5);
+hashMap1.set('abcd', 6);
+hashMap1.set('acbd', 7);
 
 hashMap1.printBuckets();
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
-hashMap1.clear();
+// hashMap1.clear();
 hashMap1.printBuckets();
 console.log('length:', hashMap1.length());
+
+hashMap1.keys();

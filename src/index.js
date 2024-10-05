@@ -148,13 +148,16 @@ class HashMap {
 
  // keys() returns an array containing all the keys inside the hash map.
  keys() {
+  const finalArray = []
     this.bucketsArray.forEach((bucket) => {
-      // console.log('bucket:', bucket)
-      // console.log('bucket array:', bucket.showStorageArray());
+      const bucketKeyValuesArray = bucket.showStorageArray()
+      if(bucketKeyValuesArray) finalArray.push(bucket.showStorageArray())
     });
+    return finalArray
   }
 
   // TODO: values() returns an array containing all the values.
+
 
   // TODO: entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
@@ -194,5 +197,4 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.printBuckets();
 console.log('length:', hashMap1.length());
 
-hashMap1.keys();
-
+console.log( hashMap1.keys())

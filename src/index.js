@@ -152,28 +152,26 @@ class HashMap {
 
   // keys() returns an array containing all the keys inside the hash map.
   keys() {
-   
+    return this.entries().map((entry) => entry[0]);
   }
 
-  // TODO: values() returns an array containing all the values.
-  values() {
-    keys().map(entry)
-  
+  // values() returns an array containing all the values.
+  values() {//??? i'm not sure if it is the best idea to use array to represent key-value pairs as in this case. because it's inflexible, and hard to know , even though i don't think there will be a third or fourth property.
+    //also, not a fan of the fact that I'm having to statically configure flat() depth
+    return this.entries().map((entry) => entry[1]);
   }
 
-  // TODO: entries() returns an array that contains each key, value pair.
+  // entries() returns an array that contains each key, value pair.
   // Example: [[firstKey, firstValue], [secondKey, secondValue]]
-
   entries() {
     const finalArray = [];
     this.bucketsArray.forEach((bucket) => {
       const bucketKeyValuesArray = bucket.showStorageArray();
       if (bucketKeyValuesArray) finalArray.push(bucket.showStorageArray());
     });
-    return finalArray;
+    return finalArray.flat(1);
   }
 
-  
   /** @param {String} key  */
   customHashFunction(key) {
     let charCodeSum = 0;
@@ -209,4 +207,6 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.printBuckets();
 console.log('length:', hashMap1.length());
 
+console.log(hashMap1.entries());
 console.log(hashMap1.keys());
+console.log(hashMap1.values());

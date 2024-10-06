@@ -19,7 +19,7 @@ function checkIndex(index, buckets) {
 
 export default class HashMap {
   constructor(defaultSize = 16) {
-    this.defaultSize;
+    this.defaultSize = defaultSize
     this.currentSize = defaultSize;
     this.bucketsArray = new Array(this.defaultSize).fill(null);
     this.initiateBuckets();
@@ -85,6 +85,7 @@ export default class HashMap {
   set(key, value) {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
+    console.log('bucketCode:', bucketCode)
     const targetBucket = this.bucketsArray[bucketCode];
 
     if (targetBucket.size === 0) {
@@ -193,7 +194,7 @@ export default class HashMap {
   customHashFunction(key) {
     let charCodeSum = 0;
     // Use golden ratio
-    const fractionConstant = 0.618_033;
+    const fractionConstant = 0.618033;
     for (let index = 0; index < key.length; index++) {
       charCodeSum += key.charCodeAt(index);
     }
@@ -222,7 +223,7 @@ console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
 // hashMap1.clear();
 hashMap1.printBuckets();
-console.log('length:', hashMap1.length());
+// console.log('length:', hashMap1.length());
 
 // console.log(hashMap1.entries());
 // console.log(hashMap1.keys());

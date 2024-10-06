@@ -256,7 +256,7 @@ function linkedList(listLocationIndex = null) {
       printArray: [],
       caller: toString,
     });
-    console.log('toStringResultArray:', toStringResultArray);
+    // console.trace('toStringResultArray:', toStringResultArray);
     const finalString = toStringResultArray.join('->');
 
     return finalString;

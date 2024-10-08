@@ -18,12 +18,11 @@ test.set('kite', 'pink')
 test.set('lion', 'golden')
 
 
-console.log('%ctesting......', 'color:red')
+// console.log('%ctesting......', 'color:red')
 test.printBuckets()
-console.log('test.loadfactor:', test.loadFactor)
+// console.log('test.loadfactor:', test.loadFactor)
 
-console.log('test.bucketsArray[4]:', test.bucketsArray[1].showStorageArray())
-//!!! FIXME: 'head' is set to reference itself as next, if there's only 1 node
+// console.log('test.bucketsArray[4]:', test.bucketsArray[1].showStorageArray())
 //!in the linkedlist. Happens when using insertAt(index > 0)
 // check 'set'
 

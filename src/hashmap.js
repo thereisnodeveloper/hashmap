@@ -52,7 +52,6 @@ export default class HashMap {
 
     console.log('nonEmptyBuckets:', nonEmptyBuckets);
     const loadFactor = nonEmptyBuckets / this.bucketsArray.length;
-    // FIXME: loadFactor is wrong`
     console.log('this.bucketsArray:', this.bucketsArray);
 
     console.log('this.bucketsArray.length:', this.bucketsArray.length);
@@ -61,7 +60,6 @@ export default class HashMap {
     return loadFactor;
   }
 
-  // TODO: doubles bucket size if we reach loadFactorThreshold
   growBucketIfNeeded() {
     // check current loadfactor\
     if (this.loadFactor >= this.loadFactorThreshold) {
@@ -235,22 +233,23 @@ const result3 = hashMap1.set('key-test', 2);
 // console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
 hashMap1.set('ewqewq', 3);
 hashMap1.set('ffffffff', 4);
+
 hashMap1.set('fffffff', 5);
 hashMap1.set('abcd', 6);
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
 hashMap1.set('acbd', 7);
 
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.set('acfbd', 7);
 
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.set('acrtbd', 7);
 
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.set('acrtbytd', 7);
 
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 hashMap1.set('ac5rtbytd', 7);
 hashMap1.set('acrtazbytd', 7);
 hashMap1.set('ac4rtbytd', 7);
@@ -265,14 +264,5 @@ hashMap1.set('acrtbyytdb', 7);
 hashMap1.set('acrtbyytdc', 7);
 hashMap1.set('acrtbyytdd', 7);
 hashMap1.set('acrtbyytde', 7);
-console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
-// hashMap1.clear();
-// hashMap1.printBuckets();
-// console.log('length:', hashMap1.length());
-
-// console.log(hashMap1.entries());
-// console.log(hashMap1.keys());
-// console.log(hashMap1.values());
-
-// hashMap1.grow();

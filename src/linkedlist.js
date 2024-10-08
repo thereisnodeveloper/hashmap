@@ -37,7 +37,7 @@ function linkedList(listLocationIndex = null) {
     if (size === 0) {
       console.log('size is 0, setting head and tail');
       head = newNodeReference;
-      tail = null;
+      tail = newNodeReference;
       size++
       return true;
     }
@@ -130,9 +130,6 @@ function linkedList(listLocationIndex = null) {
       return currentNode;
     }
     if (currentNode === tail) {
-      // if(caller === toString){
-      //   return printArray
-      // }
       console.log('reached tail...');
       return currentNode;
     }
@@ -145,6 +142,8 @@ function linkedList(listLocationIndex = null) {
     }
 
     printArray.push(JSON.stringify(currentNode.value));
+//FIXME: currentNode should not be null, traverse() should end before this happens
+
 
     // storageArray.push(keyValueArray);
     // .concat(`( ${currentNode.value} )`, '->');
@@ -261,11 +260,13 @@ function linkedList(listLocationIndex = null) {
     const newNodeReference = node(targetValue);
 
     if (setHeadTailIfSize0(newNodeReference)) {
+      console.log('head:', head)
+      console.log('tail:', tail)
       return;
     }
+    tail = newNodeReference;
     tail.next = newNodeReference;
 
-    tail = newNodeReference;
     size++;
 
     return newNodeReference;
@@ -274,7 +275,11 @@ function linkedList(listLocationIndex = null) {
   function prepend(targetValue) {
     const newNodeReference = node(targetValue, head);
 
-    setHeadTailIfSize0(newNodeReference);
+    if(setHeadTailIfSize0(newNodeReference)){
+      // console.log('head:', head)
+      // console.log('tail:', tail)
+      return
+    };
 
     head = newNodeReference;
     size++;
@@ -478,8 +483,6 @@ function testLinkedList() {
 
 function createEvaluator(targetProperty) {
   return function evaluator(propertyThreshold) {
-    // console.log('propertyThreshold:', propertyThreshold);
-    // console.log('targetProperty:', targetProperty);
     return targetProperty === propertyThreshold;
   };
 }

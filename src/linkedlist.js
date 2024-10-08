@@ -264,9 +264,18 @@ function linkedList(listLocationIndex = null) {
       console.log('tail:', tail)
       return;
     }
-    tail = newNodeReference;
-    tail.next = newNodeReference;
 
+    if(size===1){
+      head.next = newNodeReference
+    }
+    // console.log('tail before append:', tail)
+    //set current tail node's next as the new node being appended
+    tail.next = newNodeReference;
+    //set tail property to the new node
+    tail = newNodeReference;
+    // console.log('tail after append:', tail)
+
+    // console.log('tail.next:', tail.next)
     size++;
 
     return newNodeReference;
@@ -490,8 +499,13 @@ function createEvaluator(targetProperty) {
 // Run the tests
 // testLinkedList();
 const ll = linkedList();
-ll.insertAt('QWERTY', 1);
-console.log('%c linkedlist insertAt test', 'color:red');
+ll.append('first-value')
+ll.append('second-value')
+ll.append('third-value')
+console.log('ll:', ll)
+
+
+console.log('%c linkedlist isolated test', 'color:green');
 console.log('ll:', ll);
 
 export { linkedList };

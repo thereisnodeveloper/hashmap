@@ -38,16 +38,17 @@ function linkedList(listLocationIndex = null) {
       console.log('size is 0, setting head and tail');
       head = newNodeReference;
       tail = newNodeReference;
+      size++
       return true;
     }
     return false;
   }
 
   function showStorageArray() {
-    const storageArray = [] //initiate outside recursion
+    const storageArray = []; //initiate outside recursion
     function showStorageArrayCallback(config) {
-    const {keyValueArray} = config
-      storageArray.push(keyValueArray)
+      const { keyValueArray } = config;
+      storageArray.push(keyValueArray);
       // console.log('storageArray', storageArray)
       return storageArray;
     }
@@ -89,8 +90,7 @@ function linkedList(listLocationIndex = null) {
     // const storageArray = [];
     // }
 
-    let thing = []
-
+    let thing = [];
 
     const methodSpecificConfigs = {
       [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
@@ -102,15 +102,13 @@ function linkedList(listLocationIndex = null) {
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [showStorageArray]: {
         propertyThreshold: currentIndex,
-        callbackOptions: { keyValueArray:keyValueArray },
+        callbackOptions: { keyValueArray: keyValueArray },
       },
       // [showStorageArray]: {
       //   propertyThreshold: currentIndex,
       //   callbackOptions: { thing: thing.push('xyz') },
       // },
     };
-
-
 
     // console.log('currentIndex:', currentIndex);
     // console.log('printArray:', printArray);
@@ -132,23 +130,20 @@ function linkedList(listLocationIndex = null) {
       return currentNode;
     }
     if (currentNode === tail) {
-      // if(caller === toString){
-      //   return printArray
-      // }
       console.log('reached tail...');
       return currentNode;
     }
 
     // RECURSIVE CASE
 
-    
-    if(currentNode && typeof currentNode.value === 'object'
-      && caller === showStorageArray){
-        //execute showStorageArrayCallback, which adds to 
-        callback({keyValueArray: keyValueArray})
-      }
+    if (currentNode && typeof currentNode.value === 'object' && caller === showStorageArray) {
+      //execute showStorageArrayCallback, which adds to
+      callback({ keyValueArray: keyValueArray });
+    }
 
     printArray.push(JSON.stringify(currentNode.value));
+//FIXME: currentNode should not be null, traverse() should end before this happens
+
 
     // storageArray.push(keyValueArray);
     // .concat(`( ${currentNode.value} )`, '->');
@@ -256,7 +251,7 @@ function linkedList(listLocationIndex = null) {
       printArray: [],
       caller: toString,
     });
-    console.log('toStringResultArray:', toStringResultArray);
+    // console.trace('toStringResultArray:', toStringResultArray);
     const finalString = toStringResultArray.join('->');
 
     return finalString;
@@ -264,11 +259,23 @@ function linkedList(listLocationIndex = null) {
   function append(targetValue) {
     const newNodeReference = node(targetValue);
 
-    setHeadTailIfSize0(newNodeReference);
+    if (setHeadTailIfSize0(newNodeReference)) {
+      console.log('head:', head)
+      console.log('tail:', tail)
+      return;
+    }
 
+    if(size===1){
+      head.next = newNodeReference
+    }
+    // console.log('tail before append:', tail)
+    //set current tail node's next as the new node being appended
     tail.next = newNodeReference;
-
+    //set tail property to the new node
     tail = newNodeReference;
+    // console.log('tail after append:', tail)
+
+    // console.log('tail.next:', tail.next)
     size++;
 
     return newNodeReference;
@@ -277,7 +284,11 @@ function linkedList(listLocationIndex = null) {
   function prepend(targetValue) {
     const newNodeReference = node(targetValue, head);
 
-    setHeadTailIfSize0(newNodeReference);
+    if(setHeadTailIfSize0(newNodeReference)){
+      // console.log('head:', head)
+      // console.log('tail:', tail)
+      return
+    };
 
     head = newNodeReference;
     size++;
@@ -311,7 +322,11 @@ function linkedList(listLocationIndex = null) {
       prepend(targetValue);
       return;
     }
-    if (targetIndex >= size - 1) {
+    console.error('head is being duplicated');
+    if (targetIndex >= size) {
+      //size = 0 then index>= 0
+      //size = 1 then index >= 1
+      //size = 2 then index >= 2
       console.warn('target index is larger than size');
       append(targetValue);
       return;
@@ -477,8 +492,6 @@ function testLinkedList() {
 
 function createEvaluator(targetProperty) {
   return function evaluator(propertyThreshold) {
-    // console.log('propertyThreshold:', propertyThreshold);
-    // console.log('targetProperty:', targetProperty);
     return targetProperty === propertyThreshold;
   };
 }
@@ -486,5 +499,13 @@ function createEvaluator(targetProperty) {
 // Run the tests
 // testLinkedList();
 const ll = linkedList();
+ll.append('first-value')
+ll.append('second-value')
+ll.append('third-value')
+console.log('ll:', ll)
+
+
+console.log('%c linkedlist isolated test', 'color:green');
+console.log('ll:', ll);
 
 export { linkedList };

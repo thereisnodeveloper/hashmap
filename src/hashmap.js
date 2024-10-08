@@ -2,10 +2,10 @@
 // import {linkedList} from '@thereisnodeveloper/linked-list';
 // importing from file instead of package, for autocomplete
 import { linkedList } from './linkedlist.js';
+import murmur from 'murmurhash-js';
 
 import './reset.css';
 import './style.css';
-import murmur from 'murmurhash-js';
 
 // eslint-disable-next-line no-unused-vars
 const testElement = document.createElement('div');
@@ -19,7 +19,7 @@ function checkIndex(index, buckets) {
 
 export default class HashMap {
   constructor(defaultSize = 16) {
-    this.defaultSize = defaultSize
+    this.defaultSize = defaultSize;
     this.currentSize = defaultSize;
     this.bucketsArray = new Array(this.defaultSize).fill(null);
     this.initiateBuckets();
@@ -28,6 +28,9 @@ export default class HashMap {
   }
 
   initiateBuckets() {
+    // figure out which indices need mapping
+    // this.bucketsArray.filter(bucket=>bucket.size > 0)
+
     this.bucketsArray = this.bucketsArray.map((bucket, index) => linkedList(index));
   }
 
@@ -42,11 +45,15 @@ export default class HashMap {
   get loadFactor() {
     // checks how many buckets are 'empty'
     // reduce probably
-    const loadFactor =
-      this.bucketsArray.reduce((previous, current) => previous + (current.size > 0 ? 1 : 0),0) /
-      this.bucketsArray.length;
+    const nonEmptyBuckets = this.bucketsArray.reduce(
+      (cumulator, current) => cumulator + (current.size > 0 ? 1 : 0),
+      0
+    );
+
+    console.log('nonEmptyBuckets:', nonEmptyBuckets);
+    const loadFactor = nonEmptyBuckets / this.bucketsArray.length;
     // FIXME: loadFactor is wrong`
-    console.log('this.bucketsArray:', this.bucketsArray)
+    console.log('this.bucketsArray:', this.bucketsArray);
 
     console.log('this.bucketsArray.length:', this.bucketsArray.length);
 
@@ -57,17 +64,29 @@ export default class HashMap {
   // TODO: doubles bucket size if we reach loadFactorThreshold
   growBucketIfNeeded() {
     // check current loadfactor\
-    console.log('loadFactor:', this.loadFactor);
     if (this.loadFactor >= this.loadFactorThreshold) {
+      console.log('%c growing buckets', 'color:red');
       this.grow();
     }
   }
 
   grow() {
-    this.bucketsArray = [...this.bucketsArray, ...new Array(this.defaultSize).fill(null)];
-    this.initiateBuckets();
-    this.currentSize *= 2;
+    this.bucketsArray = [...this.bucketsArray, ...new Array(this.currentSize).fill(null)];
     console.log('this.bucketsArray:', this.bucketsArray);
+    // this.bucketsArray =
+
+    this.bucketsArray = this.bucketsArray.map((bucket, index) => {
+      if (bucket === null) {
+        return linkedList(index);
+      }
+      return bucket;
+    });
+    console.log('this.bucketsArray:', this.bucketsArray);
+
+    // this.initiateBuckets();
+    this.currentSize *= 2;
+    // console.log('this.bucketsArray:', this.bucketsArray);
+    this.printBuckets();
   }
 
   /**
@@ -83,9 +102,10 @@ export default class HashMap {
    *   - Replaces the value if the key already exists.
    */
   set(key, value) {
+    this.growBucketIfNeeded();
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
-    console.log('bucketCode:', bucketCode)
+    // console.log('bucketCode:', bucketCode)
     const targetBucket = this.bucketsArray[bucketCode];
 
     if (targetBucket.size === 0) {
@@ -191,17 +211,18 @@ export default class HashMap {
   }
 
   /** @param {String} key  */
-  customHashFunction(key) {
-    let charCodeSum = 0;
-    // Use golden ratio
-    const fractionConstant = 0.618033;
-    for (let index = 0; index < key.length; index++) {
-      charCodeSum += key.charCodeAt(index);
-    }
-    const hashCode = Math.floor(((charCodeSum * fractionConstant) % 1) * this.bucketsArray.length);
-    return hashCode;
+    customHashFunction(key) {
+      let hashCode = 0;
+         
+      const primeNumber = 31;
+      for (let i = 0; i < key.length; i++) {
+        hashCode = primeNumber * hashCode + key.charCodeAt(i);
+      }
+   
+      return hashCode;
+    } 
   }
-}
+
 
 const hashMap1 = new HashMap();
 
@@ -216,17 +237,42 @@ hashMap1.set('ewqewq', 3);
 hashMap1.set('ffffffff', 4);
 hashMap1.set('fffffff', 5);
 hashMap1.set('abcd', 6);
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+
 hashMap1.set('acbd', 7);
 
-hashMap1.printBuckets();
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+hashMap1.set('acfbd', 7);
+
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+hashMap1.set('acrtbd', 7);
+
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+hashMap1.set('acrtbytd', 7);
+
+console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+hashMap1.set('ac5rtbytd', 7);
+hashMap1.set('acrtazbytd', 7);
+hashMap1.set('ac4rtbytd', 7);
+hashMap1.set('acrgbbytd', 7);
+hashMap1.set('acrtbfytd', 7);
+hashMap1.set('acrtbtytdz', 7);
+hashMap1.set('acrtubytd', 7);
+
+hashMap1.set('acrtbyytdf', 7);
+hashMap1.set('acrtbyytda', 7);
+hashMap1.set('acrtbyytdb', 7);
+hashMap1.set('acrtbyytdc', 7);
+hashMap1.set('acrtbyytdd', 7);
+hashMap1.set('acrtbyytde', 7);
 console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
 
 // hashMap1.clear();
-hashMap1.printBuckets();
+// hashMap1.printBuckets();
 // console.log('length:', hashMap1.length());
 
 // console.log(hashMap1.entries());
 // console.log(hashMap1.keys());
 // console.log(hashMap1.values());
 
-hashMap1.grow();
+// hashMap1.grow();

@@ -37,17 +37,18 @@ function linkedList(listLocationIndex = null) {
     if (size === 0) {
       console.log('size is 0, setting head and tail');
       head = newNodeReference;
-      tail = newNodeReference;
+      tail = null;
+      size++
       return true;
     }
     return false;
   }
 
   function showStorageArray() {
-    const storageArray = [] //initiate outside recursion
+    const storageArray = []; //initiate outside recursion
     function showStorageArrayCallback(config) {
-    const {keyValueArray} = config
-      storageArray.push(keyValueArray)
+      const { keyValueArray } = config;
+      storageArray.push(keyValueArray);
       // console.log('storageArray', storageArray)
       return storageArray;
     }
@@ -89,8 +90,7 @@ function linkedList(listLocationIndex = null) {
     // const storageArray = [];
     // }
 
-    let thing = []
-
+    let thing = [];
 
     const methodSpecificConfigs = {
       [contains]: { propertyThreshold: currentValue, callbackOptions: {} },
@@ -102,15 +102,13 @@ function linkedList(listLocationIndex = null) {
       [removeAt]: { propertyThreshold: currentIndex, callbackOptions: {} },
       [showStorageArray]: {
         propertyThreshold: currentIndex,
-        callbackOptions: { keyValueArray:keyValueArray },
+        callbackOptions: { keyValueArray: keyValueArray },
       },
       // [showStorageArray]: {
       //   propertyThreshold: currentIndex,
       //   callbackOptions: { thing: thing.push('xyz') },
       // },
     };
-
-
 
     // console.log('currentIndex:', currentIndex);
     // console.log('printArray:', printArray);
@@ -141,12 +139,10 @@ function linkedList(listLocationIndex = null) {
 
     // RECURSIVE CASE
 
-    
-    if(currentNode && typeof currentNode.value === 'object'
-      && caller === showStorageArray){
-        //execute showStorageArrayCallback, which adds to 
-        callback({keyValueArray: keyValueArray})
-      }
+    if (currentNode && typeof currentNode.value === 'object' && caller === showStorageArray) {
+      //execute showStorageArrayCallback, which adds to
+      callback({ keyValueArray: keyValueArray });
+    }
 
     printArray.push(JSON.stringify(currentNode.value));
 
@@ -264,8 +260,9 @@ function linkedList(listLocationIndex = null) {
   function append(targetValue) {
     const newNodeReference = node(targetValue);
 
-    setHeadTailIfSize0(newNodeReference);
-
+    if (setHeadTailIfSize0(newNodeReference)) {
+      return;
+    }
     tail.next = newNodeReference;
 
     tail = newNodeReference;
@@ -311,7 +308,11 @@ function linkedList(listLocationIndex = null) {
       prepend(targetValue);
       return;
     }
-    if (targetIndex >= size - 1) {
+    console.error('head is being duplicated');
+    if (targetIndex >= size) {
+      //size = 0 then index>= 0
+      //size = 1 then index >= 1
+      //size = 2 then index >= 2
       console.warn('target index is larger than size');
       append(targetValue);
       return;
@@ -486,5 +487,8 @@ function createEvaluator(targetProperty) {
 // Run the tests
 // testLinkedList();
 const ll = linkedList();
+ll.insertAt('QWERTY', 1);
+console.log('%c linkedlist insertAt test', 'color:red');
+console.log('ll:', ll);
 
 export { linkedList };

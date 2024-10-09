@@ -36,9 +36,9 @@ export default class HashMap {
 
   printBuckets() {
     this.bucketsArray.forEach((bucket) => {
-      // console.log('bucket:', bucket);
+      // 
       const printResult = bucket.toString();
-      console.log('printResult:', printResult);
+      
     });
   }
 
@@ -51,20 +51,20 @@ export default class HashMap {
 
     const numItems = this.bucketsArray.reduce((cumulator, current) => cumulator + current.size, 0);
 
-    // console.log('numItems:', numItems);
+    // 
     const loadFactor = numItems / this.bucketsArray.length;
-    // console.log('this.bucketsArray:', this.bucketsArray);
+    // 
 
-    // console.log('this.bucketsArray.length:', this.bucketsArray.length);
+    // 
 
-    // console.log('loadFactor:', loadFactor);
+    // 
     return loadFactor;
   }
 
   growBucketIfNeeded() {
     // check current loadfactor\
     if (this.loadFactor > this.loadFactorThreshold) {
-      console.log('%c growing buckets', 'color:red');
+      
       this.grow();
     }
   }
@@ -81,12 +81,12 @@ export default class HashMap {
 
     this.rehash(entries);
 
-    console.log('this.bucketsArray:', this.bucketsArray);
+    
 
     this.printBuckets();
   }
   rehash(entries) {
-    console.log('rehashing......')
+    
     entries.forEach((entry) => this.set(...entry));
   }
 
@@ -107,7 +107,7 @@ export default class HashMap {
 
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
-    // console.log('bucketCode:', bucketCode)
+    // 
     const targetBucket = this.bucketsArray[bucketCode];
 
     if (targetBucket.size === 0) {
@@ -117,8 +117,8 @@ export default class HashMap {
 
     const indexOfResult = targetBucket.find({ key, value });
     if (indexOfResult || indexOfResult === 0) {
-      console.log('%c same key found', 'color: blue');
-      console.log(`%c index: ${indexOfResult}`, 'color: blue');
+      
+      
       targetBucket.removeAt(indexOfResult);
       targetBucket.insertAt({ key, value }, indexOfResult);
     } else {
@@ -135,10 +135,10 @@ export default class HashMap {
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
     const targetBucket = this.bucketsArray[bucketCode];
-    console.log('targetBucket:', targetBucket);
+    
     if (targetBucket.size === 0) return null;
     const resultValue = targetBucket.at(targetBucket.find({ key })).value.value;
-    // console.log('result:', resultValue);
+    // 
 
     return resultValue;
   }
@@ -156,8 +156,8 @@ export default class HashMap {
 
     const indexOfResult = targetBucket.find({ key });
     if (indexOfResult || indexOfResult === 0) {
-      console.log(`%c key found at ${indexOfResult}`, 'color: green');
-      console.log('size before remove:', targetBucket.size);
+      
+      
       targetBucket.removeAt(indexOfResult);
       return true;
     }
@@ -214,32 +214,32 @@ export default class HashMap {
 
 const hashMap1 = new HashMap();
 
-// console.log('hashMap1.bucketsArray[0].size:',  hashMap1.bucketsArray[0].size)
+// 
 const result1 = hashMap1.set('test-key', 0);
-// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+// 
 const result2 = hashMap1.set('key-test', 1);
-// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+// 
 const result3 = hashMap1.set('key-test', 2);
-// console.log('hashMap1.bucketsArray[0].size:', hashMap1.bucketsArray[0].size)
+// 
 hashMap1.set('ewqewq', 3);
 hashMap1.set('ffffffff', 4);
 
 hashMap1.set('fffffff', 5);
 hashMap1.set('abcd', 6);
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 
 hashMap1.set('acbd', 7);
 
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 hashMap1.set('acfbd', 7);
 
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 hashMap1.set('acrtbd', 7);
 
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 hashMap1.set('acrtbytd', 7);
 
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 hashMap1.set('ac5rtbytd', 7);
 hashMap1.set('acrtazbytd', 7);
 hashMap1.set('ac4rtbytd', 7);
@@ -254,5 +254,5 @@ hashMap1.set('acrtbyytdb', 7);
 hashMap1.set('acrtbyytdc', 7);
 hashMap1.set('acrtbyytdd', 7);
 hashMap1.set('acrtbyytde', 7);
-// console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+// 
 

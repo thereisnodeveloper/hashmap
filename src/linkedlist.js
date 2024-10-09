@@ -130,7 +130,7 @@ function linkedList(listLocationIndex = null) {
       return currentNode;
     }
     if (currentNode === tail) {
-      console.log('reached tail...');
+      // console.log('reached tail...');
       return currentNode;
     }
 
@@ -200,12 +200,12 @@ function linkedList(listLocationIndex = null) {
   }
 
   function find(targetValue) {
-    console.log('start find');
+    // console.log('start find');
     function findCallback(currentIndex) {
       return currentIndex;
     }
     targetValue = ifObjectThenGetKey(targetValue);
-    console.log('targetValue:', targetValue);
+    // console.log('targetValue:', targetValue);
     const index = traverse({
       evaluator: createEvaluator(targetValue),
       caller: find,

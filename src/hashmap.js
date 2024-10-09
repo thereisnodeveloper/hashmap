@@ -49,47 +49,45 @@ export default class HashMap {
     //   0
     // );
 
-    const numItems = this.bucketsArray.reduce(
-      (cumulator, current) => cumulator + current.size,
-      0
-    );
+    const numItems = this.bucketsArray.reduce((cumulator, current) => cumulator + current.size, 0);
 
-    console.log('numItems:', numItems)
+    // console.log('numItems:', numItems);
     const loadFactor = numItems / this.bucketsArray.length;
-    console.log('this.bucketsArray:', this.bucketsArray);
+    // console.log('this.bucketsArray:', this.bucketsArray);
 
-    console.log('this.bucketsArray.length:', this.bucketsArray.length);
+    // console.log('this.bucketsArray.length:', this.bucketsArray.length);
 
-    console.log('loadFactor:', loadFactor);
+    // console.log('loadFactor:', loadFactor);
     return loadFactor;
   }
 
   growBucketIfNeeded() {
     // check current loadfactor\
-    if (this.loadFactor >= this.loadFactorThreshold) {
+    if (this.loadFactor > this.loadFactorThreshold) {
       console.log('%c growing buckets', 'color:red');
       this.grow();
     }
   }
 
   grow() {
-    this.bucketsArray = [...this.bucketsArray, ...new Array(this.currentSize).fill(null)];
-    console.log('this.bucketsArray:', this.bucketsArray);
-    // this.bucketsArray =
+    //take every stored value and run it through hash function again
+    const entries = this.entries();
 
+    this.bucketsArray = new Array(this.currentSize * 2).fill(null);
     this.bucketsArray = this.bucketsArray.map((bucket, index) => {
-      if (bucket === null) {
-        return linkedList(index);
-      }
-      return bucket;
+      return linkedList(index);
     });
-    console.log('this.bucketsArray:', this.bucketsArray);
-//!!! re-distribute buckets after growing
+    this.currentSize *= 2;  
 
-    // this.initiateBuckets();
-    this.currentSize *= 2;
-    // console.log('this.bucketsArray:', this.bucketsArray);
+    this.rehash(entries);
+
+    console.log('this.bucketsArray:', this.bucketsArray);
+
     this.printBuckets();
+  }
+  rehash(entries) {
+    console.log('rehashing......')
+    entries.forEach((entry) => this.set(...entry));
   }
 
   /**
@@ -117,9 +115,7 @@ export default class HashMap {
       return targetBucket;
     }
 
-
     const indexOfResult = targetBucket.find({ key, value });
-    // if (indexOfResult) {
     if (indexOfResult || indexOfResult === 0) {
       console.log('%c same key found', 'color: blue');
       console.log(`%c index: ${indexOfResult}`, 'color: blue');
@@ -129,10 +125,9 @@ export default class HashMap {
       targetBucket.append({ key, value });
     }
 
-    // TODO: check fn_growBucketIfNeeded
 
     // if different key (still same bucket), create new node in linkedList
-    
+
     return targetBucket;
   }
 
@@ -170,18 +165,6 @@ export default class HashMap {
   }
 
   length() {
-    /**
-     * Accumulates the sizes of elements in an array.
-     * @example
-     * (prev, curr) => {
-     *   return prev + curr.size;
-     * }
-     * @param {number} prev - The accumulated size from previous elements.
-     * @param {Object} curr - The current object in the array.
-     * @returns {number} The new accumulated size after adding the current object's size.
-     * @description
-     *   - Assumes 'curr' has a property 'size' that is a number.
-     */
     const sumOfBucketSizes = this.bucketsArray.reduce(
       (previous, current) => previous + current.size,
       0
@@ -217,18 +200,17 @@ export default class HashMap {
   }
 
   /** @param {String} key  */
-    customHashFunction(key) {
-      let hashCode = 0;
-         
-      const primeNumber = 31;
-      for (let i = 0; i < key.length; i++) {
-        hashCode = primeNumber * hashCode + key.charCodeAt(i);
-      }
-   
-      return hashCode;
-    } 
-  }
+  customHashFunction(key) {
+    let hashCode = 0;
 
+    const primeNumber = 31;
+    for (let i = 0; i < key.length; i++) {
+      hashCode = primeNumber * hashCode + key.charCodeAt(i);
+    }
+
+    return hashCode;
+  }
+}
 
 const hashMap1 = new HashMap();
 
@@ -273,3 +255,4 @@ hashMap1.set('acrtbyytdc', 7);
 hashMap1.set('acrtbyytdd', 7);
 hashMap1.set('acrtbyytde', 7);
 // console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
+

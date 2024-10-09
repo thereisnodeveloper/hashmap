@@ -35,7 +35,7 @@ function linkedList(listLocationIndex = null) {
 
   function setHeadTailIfSize0(newNodeReference) {
     if (size === 0) {
-      console.log('size is 0, setting head and tail');
+      // console.log('size is 0, setting head and tail');
       head = newNodeReference;
       tail = newNodeReference;
       size++
@@ -142,7 +142,6 @@ function linkedList(listLocationIndex = null) {
     }
 
     printArray.push(JSON.stringify(currentNode.value));
-//FIXME: currentNode should not be null, traverse() should end before this happens
 
 
     // storageArray.push(keyValueArray);
@@ -235,7 +234,6 @@ function linkedList(listLocationIndex = null) {
     function toStringCallback(config) {
       const { printArray, currentNode } = config;
       // console.log('%c starting toStringCallback', 'color:red');
-      // FIXME: maybe pass the 'resultString' as a 'printArray' that contains value of
       // each node, and print it all at the end
 
       printArray.push(JSON.stringify(currentNode.value));
@@ -260,8 +258,8 @@ function linkedList(listLocationIndex = null) {
     const newNodeReference = node(targetValue);
 
     if (setHeadTailIfSize0(newNodeReference)) {
-      console.log('head:', head)
-      console.log('tail:', tail)
+      // console.log('head:', head)
+      // console.log('tail:', tail)
       return;
     }
 

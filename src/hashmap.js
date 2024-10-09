@@ -43,15 +43,19 @@ export default class HashMap {
   }
 
   get loadFactor() {
-    // checks how many buckets are 'empty'
     // reduce probably
-    const nonEmptyBuckets = this.bucketsArray.reduce(
-      (cumulator, current) => cumulator + (current.size > 0 ? 1 : 0),
+    // const nonEmptyBuckets = this.bucketsArray.reduce(
+    //   (cumulator, current) => cumulator + (current.size > 0 ? 1 : 0),
+    //   0
+    // );
+
+    const numItems = this.bucketsArray.reduce(
+      (cumulator, current) => cumulator + current.size,
       0
     );
 
-    console.log('nonEmptyBuckets:', nonEmptyBuckets);
-    const loadFactor = nonEmptyBuckets / this.bucketsArray.length;
+    console.log('numItems:', numItems)
+    const loadFactor = numItems / this.bucketsArray.length;
     console.log('this.bucketsArray:', this.bucketsArray);
 
     console.log('this.bucketsArray.length:', this.bucketsArray.length);
@@ -80,6 +84,7 @@ export default class HashMap {
       return bucket;
     });
     console.log('this.bucketsArray:', this.bucketsArray);
+//!!! re-distribute buckets after growing
 
     // this.initiateBuckets();
     this.currentSize *= 2;
@@ -101,6 +106,7 @@ export default class HashMap {
    */
   set(key, value) {
     this.growBucketIfNeeded();
+
     const hashCode = this.hashFunction(key);
     const bucketCode = hashCode % this.bucketsArray.length;
     // console.log('bucketCode:', bucketCode)
@@ -110,6 +116,7 @@ export default class HashMap {
       targetBucket.append({ key, value });
       return targetBucket;
     }
+
 
     const indexOfResult = targetBucket.find({ key, value });
     // if (indexOfResult) {
@@ -125,6 +132,7 @@ export default class HashMap {
     // TODO: check fn_growBucketIfNeeded
 
     // if different key (still same bucket), create new node in linkedList
+    
     return targetBucket;
   }
 
@@ -265,4 +273,3 @@ hashMap1.set('acrtbyytdc', 7);
 hashMap1.set('acrtbyytdd', 7);
 hashMap1.set('acrtbyytde', 7);
 // console.log('hashMap1.loadFactor:', hashMap1.loadFactor);
-

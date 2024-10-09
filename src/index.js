@@ -25,4 +25,3 @@ test.printBuckets()
 // console.log('test.bucketsArray[4]:', test.bucketsArray[1].showStorageArray())
 //!in the linkedlist. Happens when using insertAt(index > 0)
 // check 'set'
-
